@@ -4,9 +4,9 @@
    CLOCK: [2015-04-14 Tue 07:41]--[2015-04-14 Tue 16:00] =>  8:19
    1. [X] Ch01 Introduction: Why Lisp?
    2. [X] Ch02 Lather, Rinse, Repeat: A Tour of the REPL
-   3. [X] Ch03 Practical: A Simple Database
+   3. [-] Ch03 Practical: A Simple Database
       1. [X] Follow book to exercise mp3 data base first
-      2. [X] Rewrite mp3 data base afterward all by myself
+      2. [ ] Rewrite mp3 data base afterward all by myself
    4. [ ] Ch04 Syntax and Semantics
    5. [ ] Ch05 Functions
    6. [ ] Ch06 Variables
