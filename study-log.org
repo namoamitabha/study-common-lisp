@@ -1,0 +1,38 @@
+* Notes
+** TODO Practical Common Lisp
+   CLOCK: [2015-04-14 Tue 16:01]--[2015-04-14 Tue 18:01] =>  2:00
+   CLOCK: [2015-04-14 Tue 07:41]--[2015-04-14 Tue 16:00] =>  8:19
+   1. [X] Ch01 Introduction: Why Lisp?
+   2. [X] Ch02 Lather, Rinse, Repeat: A Tour of the REPL
+   3. [X] Ch03 Practical: A Simple Database
+      1. [X] Follow book to exercise mp3 data base first
+      2. [X] Rewrite mp3 data base afterward all by myself
+   4. [ ] Ch04 Syntax and Semantics
+   5. [ ] Ch05 Functions
+   6. [ ] Ch06 Variables
+   7. [ ] Ch07 Macros: Standard Control Constructs
+   8. [ ] Ch08 Macros: Defining Your Own
+   9. [ ] Ch09 Practical: Building a Unit Test Framework
+   10. [ ] Ch10 Numbers, Characters, and Strings
+   11. [ ] Ch11 Collections
+   12. [ ] Ch12 They Called It LISP for a Reason: List Processing
+   13. [ ] Ch13 Beyond Lists: Other Uses for Cons Cells
+   14. [ ] Ch14 Files and File I/O
+   15. [ ] Ch15 Practical: A Portable Pathname Library
+   16. [ ] Ch16 Object Reorientation: Generic Functions
+   17. [ ] Ch17 Object Reorientation: Classes
+   18. [ ] Ch18 A Few FORMAT Recipes
+   19. [ ] Ch19 Beyond Exception Handling: Conditions and Restarts
+   20. [ ] Ch20 The Special Operators
+   21. [ ] Ch21 Programming in the Large: Packages and Symbols
+   22. [ ] Ch22 LOOP for Black Belts
+   23. [ ] Ch23 Practical: A Spam Filter
+   24. [ ] Ch24 Practical: Parsing Binary Files
+   25. [ ] Ch25 Practical: An ID3 Parser
+   26. [ ] Ch26 Practical: Web Programming with AllegroServe
+   27. [ ] Ch27 Practical: An MP3 Database
+   28. [ ] Ch28 Practical: A Shoutcast Server
+   29. [ ] Ch29 Practical: An MP3 Browser
+   30. [ ] Ch30 Practical: An HTML Generation Library, the Interpreter
+   31. [ ] Ch31 Practical: An HTML Generation Library, the Compiler
+   32. [ ] Ch32 Practical: Conclusion: What's Next?
