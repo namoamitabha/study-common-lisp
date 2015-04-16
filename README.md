@@ -1,2 +1,2 @@
-# practical-common-lisp-study
-study practical common lisp
+# Study Practical Common Lisp
+Practical Common Lisp oneline book[http://www.gigamonkeys.com/book/](http://www.gigamonkeys.com/book/)
