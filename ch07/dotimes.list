@@ -1,0 +1,6 @@
+(dotimes (i 4) 
+	 (print i))
+
+(dotimes (x 10)
+	 (dotimes (y 10)
+	 (format t "~3d " (* (1+ x) (1+ y)))))
