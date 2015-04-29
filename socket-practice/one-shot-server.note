@@ -1,0 +1,99 @@
+TELNET CLIENT OUTPUT:
+
+$ telnet localhost 4567
+Trying ::1...
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+test message!
+You said: test message!
+Connection closed by foreign host.
+
+**************************************************
+SIMPLE LISP CLIENT OUTPUT:
+
+This is SBCL 1.2.4.debian, an implementation of ANSI Common Lisp.
+More information about SBCL is available at <http://www.sbcl.org/>.
+
+SBCL is free software, provided as is, with absolutely no warranty.
+It is mostly in the public domain; some portions are provided under
+BSD-style licenses.  See the CREDITS and COPYING files in the
+distribution for more information.
+* (ql:quickload "usocket")
+To load "usocket":
+  Load 1 ASDF system:
+    usocket
+; Loading "usocket"
+
+("usocket")
+* (defun simple-test (port string)
+  (let* ((socket (usocket:socket-connect #(127 0 0 1) port))
+	 (stream (usocket:socket-stream socket)))
+    (write-line string stream)
+    (force-output stream)
+    (let ((result (read-line stream)))
+      (close stream)
+      (usocket:socket-close socket)
+      result)))
+
+SIMPLE-TEST
+* (simple-test 4567 "testing: 1 2 3")
+
+"You said: testing: 1 2 3"
+* 
+
+
+**************************************************
+LISP SOCKET SERVER OUTPUT:
+
+This is SBCL 1.2.4.debian, an implementation of ANSI Common Lisp.
+More information about SBCL is available at <http://www.sbcl.org/>.
+
+SBCL is free software, provided as is, with absolutely no warranty.
+It is mostly in the public domain; some portions are provided under
+BSD-style licenses.  See the CREDITS and COPYING files in the
+distribution for more information.
+* (ql:quickload "usocket")
+To load "usocket":
+  Load 1 ASDF system:
+    usocket
+; Loading "usocket"
+
+("usocket")
+* (defun one-shot-server (port)
+  (let ((socket (usocket:socket-listen usocket:*wildcard-host*
+				       port
+				       :reuse-address t)))
+    (usocket:wait-for-input socket)
+    (let ((stream (usocket:socket-stream (usocket:socket-accept socket))))
+      (handle-request stream)
+      (close stream)
+      (usocket:socket-close socket))))
+
+; in: DEFUN ONE-SHOT-SERVER
+;     (HANDLE-REQUEST STREAM)
+; 
+; caught STYLE-WARNING:
+;   undefined function: HANDLE-REQUEST
+; 
+; compilation unit finished
+;   Undefined function:
+;     HANDLE-REQUEST
+;   caught 1 STYLE-WARNING condition
+
+ONE-SHOT-SERVER
+* (defun handle-request (stream)
+  (let ((line (read-line stream)))
+    (format stream "You said: ~a" line))
+  (terpri stream)
+  (force-output stream))
+
+
+HANDLE-REQUEST
+* (one-shot-server 4567)
+
+T
+* (one-shot-server 4567)
+
+T
+* 
