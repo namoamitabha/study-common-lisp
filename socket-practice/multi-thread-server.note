@@ -1,0 +1,129 @@
+This is SBCL 1.2.4.debian, an implementation of ANSI Common Lisp.
+More information about SBCL is available at <http://www.sbcl.org/>.
+
+SBCL is free software, provided as is, with absolutely no warranty.
+It is mostly in the public domain; some portions are provided under
+BSD-style licenses.  See the CREDITS and COPYING files in the
+distribution for more information.
+* (ql:quickload "usocket")
+To load "usocket":
+  Load 1 ASDF system:
+    usocket
+; Loading "usocket"
+
+("usocket")
+* (ql:quickload "bordeaux-threads")
+To load "bordeaux-threads":
+  Load 1 ASDF system:
+    bordeaux-threads
+; Loading "bordeaux-threads"
+
+("bordeaux-threads")
+* (defun try-make-thread (name function)
+  #+bordeaux-threads
+  (bt:make-thread function :name name)
+  #-bordeaux-threads
+  (funcall function))
+
+
+TRY-MAKE-THREAD
+* (defvar *server* nil)
+(defun start-server (port)
+  (let ((socket (usocket:socket-listen usocket:*wildcard-host*
+				       port
+				       :reuse-address t)))
+    (setf *server*
+	  (try-make-thread (format nil "Port ~a server" port)
+			   (lambda ()
+			     (unwind-protect
+				  (run-server socket)
+			       (usocket:socket-close socket)))))))
+
+
+*SERVER*
+* ; in: DEFUN START-SERVER
+;     (RUN-SERVER SOCKET)
+; 
+; caught STYLE-WARNING:
+;   undefined function: RUN-SERVER
+; 
+; compilation unit finished
+;   Undefined function:
+;     RUN-SERVER
+;   caught 1 STYLE-WARNING condition
+
+START-SERVER
+* #+bordeaux-threads
+(defun stop-server ()
+  (let ((server (shiftf *server* nil)))
+    (when server
+      (bt:destroy-thread server))))
+
+
+STOP-SERVER
+* (defun run-server (socket)
+  (loop
+     (usocket:wait-for-input socket)
+     (let ((stream (usocket:socket-stream (usocket:socket-accept socket))))
+       (try-make-thread (format nil "Request handler for ~s" stream)
+			(lambda ()
+			  (with-open-stream (stream stream)
+			    (handle-request stream)))))))
+
+
+; in: DEFUN RUN-SERVER
+;     (HANDLE-REQUEST STREAM)
+; 
+; caught STYLE-WARNING:
+;   undefined function: HANDLE-REQUEST
+; 
+; compilation unit finished
+;   Undefined function:
+;     HANDLE-REQUEST
+;   caught 1 STYLE-WARNING condition
+
+RUN-SERVER
+* (defun handle-request (stream)
+  (let ((line (read-line stream)))
+    (format stream "You said: ~a" line))
+  (terpri stream)
+  (force-output stream))
+
+
+HANDLE-REQUEST
+* (start-server 4567)
+
+#<SB-THREAD:THREAD "Port 4567 server" RUNNING {1006B1C143}>
+* (defun simple-test (port string)
+  (let* ((socket (usocket:socket-connect #(127 0 0 1) port))
+	 (stream (usocket:socket-stream socket)))
+    (write-line string stream)
+    (force-output stream)
+    (let ((result (read-line stream)))
+      (close stream)
+      (usocket:socket-close socket)
+      result)))
+
+
+SIMPLE-TEST
+* (simple-test "Hello")
+
+debugger invoked on a SB-INT:SIMPLE-PROGRAM-ERROR in thread
+#<THREAD "main thread" RUNNING {10039CE933}>:
+  invalid number of arguments: 1
+
+Type HELP for debugger help, or (SB-EXT:EXIT) to exit from SBCL.
+
+restarts (invokable by number or by possibly-abbreviated name):
+  0: [ABORT] Exit debugger, returning to top level.
+
+(SIMPLE-TEST "Hello") [tl,external]
+0] 0
+
+* (simple-test 4567 "Hello")
+
+"You said: Hello"
+* (simple-test 4567 "Goodbye")
+
+"You said: Goodbye"
+* 
