@@ -1,3 +1,4 @@
+#code sameple from http://www.binarytides.com/python-socket-programming-tutorial/
 import socket	#for sockets
 import sys	#for exit
 
