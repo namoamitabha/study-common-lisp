@@ -57,3 +57,15 @@
 
 ;;; functions as data, a.k.a higher-order functions
 
+(defun foo (x) (* 2 x))
+
+(defun plot (fn min max step)
+  (loop for i from min to max by step do
+       (loop repeat (funcall fn i) do (format t "*"))
+       (format t "~%")))
+
+(funcall #'(lambda (x y) (+ x y)) 2 3)
+
+((lambda (x y) (+ x y)) 2 3)
+
+(defun double-2 (x) (* 2 x))
