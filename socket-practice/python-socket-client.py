@@ -12,7 +12,7 @@ except socket.error, msg:
 print 'Socket Created'
 
 host = 'localhost'
-port = 4567
+port = 4096
 
 try:
     remote_ip = socket.gethostbyname( host )
@@ -21,7 +21,7 @@ except socket.gaierror:
     print 'Hostname could not be resolved. Exiting'
     sys.exit()
 	
-print 'Ip address of ' + host + ' is ' + remote_ip
+print 'Ip address of ' + host + ' is ' + remote_ip + ' port=' + str(port)
 
 #Connect to remote server
 s.connect((remote_ip , port))
