@@ -18,28 +18,32 @@
   `(combine-results
      ,@(loop for f in forms collect `(report-result ,f ',f))))
 
-(defun test-+ ()
+(defmacro deftest (name parameters &body body)
+  `(defun ,name ,parameters
+     (let ((*test-name* ',name))
+       ,@body)))
+
+(deftest test-+1 ()
   (check
    (= (+ 1 2 ) 3)
    (= (+ 1 2 3) 6)
    (= (+ -1 -3) -4)))
 
 
-(defun test-+ ()
-  (let ((*test-name* 'test-+))
-    (check
-     (= (+ 1 2 ) 3)
-     (= (+ 1 2 3) 6)
-     (= (+ -1 -3) -5))))
+(deftest test-+2 ()
+  (check
+   (= (+ 1 2 ) 3)
+   (= (+ 1 2 3) 6)
+   (= (+ -1 -3) -5)))
 
-(defun test-* ()
-  (let ((*test-name* 'test-*))
-    (check
-     (= (* 2 2) 4)
-     (= (* 3 5) 15))))
+(deftest test-* ()
+  (check
+   (= (* 2 2) 4)
+   (= (* 3 5) 15)))
 
 (defun test-arithmetic ()
   (combine-results
-   (test-+)
+   (test-+1)
+   (test-+2)
    (test-*)))
 
