@@ -20,7 +20,7 @@
 
 (defmacro deftest (name parameters &body body)
   `(defun ,name ,parameters
-     (let ((*test-name* ',name))
+     (let ((*test-name* (append *test-name* (list ',name))))
        ,@body)))
 
 (deftest test-+1 ()
@@ -41,9 +41,11 @@
    (= (* 2 2) 4)
    (= (* 3 5) 15)))
 
-(defun test-arithmetic ()
+(deftest test-arithmetic ()
   (combine-results
    (test-+1)
    (test-+2)
    (test-*)))
 
+(deftest test-match ()
+  (test-arithmetic))
