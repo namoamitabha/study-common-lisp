@@ -9,8 +9,22 @@
 (defvar *payees* (make-hash-table :test #'equal)
   "Payees with checks paid to each.")
 
+(set-macro-character #\$
+		     #'(lambda (stream char)
+			 (declare (ignore char))
+			 (round (* 100 (read stream)))))
+
 (defstruct check
-  number date amount payee memo)
+  number date amount payee memo
+  (:print-function
+   (lambda (check stream depth)
+     (declare (ignore depth))
+     (format stream "#$(CHECK NUMBER ~$ DATE ~S AMOUNT $~,2,~2F PAYEE ~S MEMO ~S)"
+	     (check-number check)
+	     (check-date check)
+	     (check-amount check)
+	     (check-payee check)
+	     (check-memo check)))))
 
 (defun  current-date-string ()
   "Returns current date as a string."
