@@ -1,0 +1,32 @@
+
+#(#S(CHECK
+     :NUMBER 100
+     :DATE "2015-8-26"
+     :AMOUNT 100.0
+     :PAYEE "Acme"
+     :MEMO "T-100 rocket booster")
+  NIL
+  #S(CHECK
+     :NUMBER 102
+     :DATE "2015-8-26"
+     :AMOUNT 300.0
+     :PAYEE "WB INfirmary"
+     :MEMO "Boday cast")) 
+103 
+#.(SB-IMPL::%STUFF-HASH-TABLE
+   (MAKE-HASH-TABLE :TEST 'EQUAL :SIZE '16 :REHASH-SIZE '1.5 :REHASH-THRESHOLD
+                    '1.0 :WEAKNESS 'NIL)
+   '(("WB INfirmary"
+      #S(CHECK
+         :NUMBER 102
+         :DATE "2015-8-26"
+         :AMOUNT 300.0
+         :PAYEE "WB INfirmary"
+         :MEMO "Boday cast"))
+     ("Acme"
+      #S(CHECK
+         :NUMBER 100
+         :DATE "2015-8-26"
+         :AMOUNT 100.0
+         :PAYEE "Acme"
+         :MEMO "T-100 rocket booster")))) 
