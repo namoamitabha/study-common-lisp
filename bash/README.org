@@ -1,0 +1,4 @@
+* TODO study bash basic
+  1. [ ] http://linuxconfig.org/bash-scripting-tutorial
+  2. [ ] http://www.cyberciti.biz/faq/bash-loop-over-file/
+  3. 
