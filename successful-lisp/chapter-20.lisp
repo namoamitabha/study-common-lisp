@@ -121,3 +121,105 @@
      `(,',old-name ,@args)))
 
 (defsynonym cons make-pair)
+
+(make-pair 'a 'b)
+
+;;********************
+(defmacro repeat (times &body body)
+  `(dotimes (x ,times)
+     ,@body))
+
+(repeat 3 (print 'hi))
+
+(setq x 'hi)
+x
+(repeat 3 (print x))
+
+
+;; * (setq x 'hi)
+;; x
+;; (repeat 3 (print x))
+
+;; HI
+;; *
+;; HI
+;; *
+;; 0
+;; 1
+;; 2
+;; NIL
+;; *
+
+(defmacro repeat (times &body body)
+  (let ((x (gensym)))
+    `(dotimes (,x ,times)
+       ,@body)))
+
+
+;; * (setq x 'hi)
+;; x
+;; (repeat 3 (print x))
+
+;; HI
+;; *
+;; HI
+;; *
+;; HI
+;; HI
+;; HI
+;; NIL
+;; *
+
+
+;; * (macroexpand-1 '(repeat 5 (print x)))
+
+;; (DOTIMES (#:G766 5) (PRINT X))
+;; T
+
+
+;; * (eq 'a 'a)
+
+;; T
+;; * (eq '#:a '#:a)
+
+;; NIL
+
+(defmacro cube (n)
+  `(* ,n ,n ,n))
+
+(cube 3)
+
+(let ((n 2))
+  (cube (incf n)))
+
+
+;; * (let ((n 2))
+;;   (cube (incf n)))
+
+;; 60
+
+(macroexpand-1 '(cube (incf n)))
+
+
+;; * (macroexpand-1 '(cube (incf n)))
+
+;; (* (INCF N) (INCF N) (INCF N))
+;; T
+
+(defmacro cube (n)
+  (let ((x (gensym)))
+    `(let ((,x ,n))
+       (* ,x ,x ,x))))
+
+
+;; * (let ((n 2))
+;;     (cube (incf n)))
+
+;; 27
+
+
+;; * (macroexpand-1 `(cube (incf n)))
+
+;; (LET ((#:G771 (INCF N)))
+;;   (* #:G771 #:G771 #:G771))
+;; T
