@@ -116,3 +116,8 @@
 ;; 0.7071067811865476d0
 
 ;;********************
+(defmacro defsynonym (old-name new-name)
+  `(defmacro ,new-name (&rest args)
+     `(,',old-name ,@args)))
+
+(defsynonym cons make-pair)
