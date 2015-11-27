@@ -133,3 +133,9 @@
 		 (item '(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16)))
   (format t "~&id ~D item ~A~%" id item)
   (sleep (random 1.0)))
+;;doesn't work for make-lock not bound
+
+(destructuring-bind ((a &key b) (c (d e) &optional f))
+    '((1 :b 2) (3 (4 5) 6))
+  (list a b c d e f))
+;;(1 2 3 4 5 6)
