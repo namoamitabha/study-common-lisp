@@ -38,3 +38,41 @@
 				    :format-control "Can't do ~A."
 				    :format-arguments '(undefined-operation))))
   (error my-condition))
+
+;;Recover from conditions using restarts
+(progn (cerror "Go ahead, make my day."
+	       "Do you fell lucky?")
+       "Just kidding")
+
+(defun expect-type (object type default-value)
+  (if (typep object type)
+      object
+      (progn (cerror "Substitue the default value ~2*~S."
+		     "~S is not of the expected type ~S"
+		     object type default-value)
+	     default-value)))
+
+(expect-type "Nifty" 'string "Bear")
+(expect-type 7 'string "Bear")
+
+(define-condition expect-type-error (error)
+  ((object :initarg :object :reader object)
+   (type :initarg :object :reader type))
+  (:report (lambda (condition stream)
+	     (format stream "~S is not of the expected type ~S."
+		     (object condition)
+		     (type condition)))))
+
+(defun expect-type (object type default-value)
+  (if (typep object type)
+      object
+      (progn (cerror "Substitue the default value ~5*~S."
+		     'expect-type-error
+		     :object object
+		     :type type
+		     :ignore default-value
+		     :allow-other-keys t)
+	     default-value)))
+
+(expect-type "Nifty" 'string "Bear")
+(expect-type 7 'string "Bear")
