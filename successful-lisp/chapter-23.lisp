@@ -129,3 +129,45 @@
 (log-to-disk "Hello" 'disk1)
 (log-to-disk "Goodbye" 'disk1)
 (check-disk-utilization 'disk1 90)
+
+
+(define-condition device-unresponsive ()
+  ((device :initarg :device :reader device))
+  (:report (lambda (condition stream)
+	     (format stream "Device ~A is unreponsive."
+		     (device condition)))))
+
+(defun send-query (device query)
+  (format t "~&Sending ~S ~S~%" device query))
+
+(defun accept-response (device)
+  nil)
+
+(defun reset-device (device)
+  (format t "~&Resetting ~S~%" device))
+
+(defun query-device (device)
+  (restart-bind
+      ((nil #'(lambda () (reset-device device))
+	 :report-function
+	 #'(lambda (stream)
+	     (format stream "Reset device.")))
+       (nil #'(lambda () (format t "~&New device:")
+		      (finish-output)
+		      (setq device (read)))
+	 :report-function
+	 #'(lambda (stream)
+	     (format stream "Try a different device.")))
+       (nil #'(lambda () (return-from query-device :gave-up))
+	 :report-function
+	 #'(lambda (stream)
+	     (format stream "Give up."))))
+    (loop
+       (send-query device 'query)
+       (let ((answer (accept-response device)))
+	 (if answer
+	     (return answer)
+	     (cerror "Try again."
+		     'device-unresponsive :device device))))))
+
+(query-device 'foo)
