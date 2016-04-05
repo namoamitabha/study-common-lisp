@@ -76,3 +76,56 @@
 
 (expect-type "Nifty" 'string "Bear")
 (expect-type 7 'string "Bear")
+
+(defun my-divide (numerator denominator)
+  (assert (not (zerop denominator)))
+  (/ numerator denominator))
+
+(my-divide 3 0)
+
+(defun my-divide (numertator denominator)
+  (assert (not (zerop denominator)) (numertator denominator))
+  (/ numertator denominator))
+
+(my-divide 3 0)
+
+(defun my-divide (numerator denominator)
+  (assert (not (zerop denominator)) (numerator denominator)
+	  "You can't divide ~D by ~D." numerator denominator)
+  (/ numerator denominator))
+
+(my-divide 3 0)
+
+(define-condition high-disk-utilization ()
+  ((disk-name :initarg :disk-name :reader disk-name)
+   (current :initarg :current :reader current-utilization)
+   (threshold :initarg :threshold :reader threshold))
+  (:report (lambda (condition stream)
+	     (format stream "Disk ~A is ~D% full; threshold is ~D%."
+		     (disk-name condition)
+		     (current-utilization condition)
+		     (threshold condition)))))
+
+(defun get-disk-utilization (disk-name)
+  93)
+
+(defun check-disk-utilization (name threshold)
+  (let ((utilization (get-disk-utilization name)))
+    (when (>= utilization threshold)
+      (signal 'high-disk-utilization
+	      :disk-name name
+	      :current utilization
+	      :threshold threshold))))
+
+(defun log-to-disk (record name)
+  (handler-bind ((high-disk-utilization
+		  #'(lambda (c)
+		      (when (y-or-n-p "~&~A Panic?" c)
+			(return-from log-to-disk nil)))))
+    (check-disk-utilization name 90)
+    (print record))
+  t)
+
+(log-to-disk "Hello" 'disk1)
+(log-to-disk "Goodbye" 'disk1)
+(check-disk-utilization 'disk1 90)
