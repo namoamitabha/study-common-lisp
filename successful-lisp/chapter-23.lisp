@@ -171,3 +171,47 @@
 		     'device-unresponsive :device device))))))
 
 (query-device 'foo)
+
+
+(ignore-errors
+  (error "Something bad has happened")
+  (print "Didn't get here."))
+
+(ignore-errors
+  (* 7 9))
+
+(ignore-errors
+  (/ 7 0))
+
+(defmacro report-error (&body body)
+  (let
+      ((results (gensym))
+       (condition (gensym)))
+    `(let
+	 ((,results (multiple-value-list
+		     (ignore-errors ,@body))))
+       (if (and (null (first ,results))
+		(typep (second ,results) 'condition)
+		(null (nthcdr 2 ,results)))
+	   (let ((,condition (second ,results)))
+	     (typecase ,condition
+	       (simple-condition
+		(apply #'format t
+		       (simple-condition-format-control ,condition)
+		       (simple-condition-format-arguments ,condition)))
+	       (otherwise
+		(format t "~A error." (type-of ,condition))))
+	     (values))
+	   (values-list ,results)))))
+
+(report-error (error "I feel like I'm losing my mind, Dave."))
+
+(report-error (+ 1 no-variable-by-this-name))
+
+(report-error (+ 7 'f))
+
+(report-error (let ((n 1)) (/ 8 (decf n))))
+
+(report-error (* 2 pi))
+
+(report-error (values 1 2 3 4))
