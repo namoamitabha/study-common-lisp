@@ -1,3 +1,4 @@
+;;2.2
 (defun double (x) (* x 2))
 
 (double 1)
@@ -26,3 +27,5 @@
 
 (defun double (x) (* x 2))
 (setf (symbol-function 'double) #'(lambda (x) (* x 2)))
+
+;;2.3
