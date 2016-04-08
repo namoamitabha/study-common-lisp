@@ -189,3 +189,29 @@ cities
     (tri 0 n)))
 
 (triangle 10000)
+;;2.9
+(defun foo (x) (1+ x))
+(compiled-function-p #'foo)
+
+(compile 'foo)
+(compiled-function-p #'foo)
+
+(compile nil '(lambda (x) (+ x 2)))
+
+(progn
+  (compile 'bar '(lambda (x) (* x 3)))
+  (compiled-function-p #'bar))
+
+(let ((y 2))
+  (defun foo1 (x) (+ x y)))
+
+;;(compile #'foo1)
+
+(compile 'make-adder)
+(compiled-function-p (make-adder 2))
+
+(defun 50th (lst) (nth 49 lst))
+(proclaim '(inline 50th))
+
+(defun foo2 (lst)
+  (+ (50th lst) 1))
