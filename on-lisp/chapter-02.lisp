@@ -1,3 +1,4 @@
+(proclaim '(optimize speed))
 ;;2.2
 (defun double (x) (* x 2))
 
@@ -159,3 +160,32 @@ cities
 (count-instances 'a '((a b c) (d a r p a) (d a r) (a a)))
 
 ;;2.8
+(defun our-length (lst)
+  (if (null lst)
+      0
+      (1+ (our-length (cdr lst)))))
+
+(defun our-find-if (fn lst)
+  (if (funcall fn (car lst))
+      (car lst)
+      (our-find-if fn (cdr lst))))
+
+(defun our-length (lst)
+  (labels
+      ((rec (lst acc)
+	 (if (null lst)
+	     acc
+	     (rec (cdr lst) (1+ acc)))))
+    (rec lst 0)))
+
+(defun triangle (n)
+  (labels
+      ((tri (c n)
+	 (declare (type fixnum n c))
+	 (if (zerop n)
+	     c
+	     (tri (the fixnum (+ n c))
+		  (the fixnum (- n 1))))))
+    (tri 0 n)))
+
+(triangle 10000)
