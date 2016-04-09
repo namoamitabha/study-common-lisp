@@ -37,3 +37,39 @@ lst
     (setq y (car x))
     (setq sqr (expt y 2))
     (list 'a sqr)))
+
+;;3.3 Funtional Interfaces
+(defun qualify (expr)
+  (nconc (copy-list expr) (list 'maybe)))
+
+(setq lst '(a b c))
+(qualify lst)
+lst
+
+(defun ok (x)
+  (nconc (list 'a x) (list 'c)))
+(ok lst)
+lst
+
+(defun not-ok (x)
+  (nconc (list 'a) x (list 'c)))
+(not-ok lst)
+lst
+
+(defun anything (x)
+  (+ x *anything*))
+
+(defun exclaim (expression)
+  (append expression '(oh my)))
+
+(exclaim '(lions and tigers and bears))
+(nconc * '(goodness))
+(exclaim '(fixnums and bignums and floats))
+
+(defun exclaim (expression)
+  (append expression (list 'oh 'my)))
+(exclaim '(lions and tigers and bears))
+(nconc * '(goodness))
+(exclaim '(fixnums and bignums and floats))
+
+;;3.4 Interactive Programming
