@@ -1,4 +1,4 @@
-;;2.1 Functional Design
+;;3.1 Functional Design
 (defun good-reverse (lst)
   (labels ((rev (lst acc)
 	         (if (null lst)
