@@ -27,3 +27,13 @@ lst
 
 (multiple-value-bind (base root square) (powers 4)
   (list base root square))
+
+;;3.2 Imperative Outside-in
+(defun fun (x)
+  (list 'a (expt (car x) 2)))
+
+(defun imp (x)
+  (let (y sqr)
+    (setq y (car x))
+    (setq sqr (expt y 2))
+    (list 'a sqr)))
