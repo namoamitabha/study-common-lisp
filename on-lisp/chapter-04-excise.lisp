@@ -113,3 +113,21 @@
 (assert (equal (flatten '(((a)))) '(a)))
 (assert (equal (flatten nil) nil))
 (assert (equal (flatten '()) nil))
+
+
+(defun prune (test tree)
+  "To remove-if as copy-tree is to copy-list. Recurses down to sublists"
+  (labels ((rec (tree acc)
+	          (cond ((null tree) (nreverse acc))
+			    ((consp (car tree))
+			     (rec (cdr tree)
+				     (cons (rec (car tree) nil) acc)))
+			    (t (rec (cdr tree)
+				       (if (funcall test (car tree))
+					   acc
+					   (cons (car tree) acc)))))))
+    (rec tree nil)))
+
+(assert (equal (prune #'evenp '(1 2 (3 (4 5) 6) 7 8 (9)))
+	                '(1 (3 (5)) 7 (9))))
+
