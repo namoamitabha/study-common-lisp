@@ -99,3 +99,17 @@
 (assert (equal (group '(a b c d e f g) 2) '((a b) (c d) (e f) (g))))
 (assert (eq (group nil 2) nil))
 ;;(group '(a b) 0)
+
+
+(defun flatten (x)
+  "Returns a list of all the atoms that are elements of a list or elements of its elements, and so on"
+  (labels ((rec (x acc)
+	          (cond ((null x) acc)
+			    ((atom x) (cons x acc))
+			    (t (rec (car x) (rec (cdr x) acc))))))
+    (rec x nil)))
+
+(assert (equal (flatten '(a (b c) ((d e) f))) '(a b c d e f)))
+(assert (equal (flatten '(((a)))) '(a)))
+(assert (equal (flatten nil) nil))
+(assert (equal (flatten '()) nil))
