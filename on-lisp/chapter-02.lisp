@@ -40,11 +40,11 @@
 (funcall #'+ 1 2)
 
 (mapcar #'(lambda (x) (+ x 10))
-	'(1 2 3))
+        '(1 2 3))
 
 (mapcar #'+
-	'(1 2 3)
-	'(10 100 1000))
+        '(1 2 3)
+        '(10 100 1000))
 
 (sort '(1 4 2 5 6 7 3) #'<)
 
@@ -54,8 +54,8 @@
   (if (null lst)
       nil
       (if (funcall fn (car lst))
-	  (our-remove-if fn (cdr lst))
-	  (cons (car lst) (our-remove-if fn (cdr lst))))))
+          (our-remove-if fn (cdr lst))
+          (cons (car lst) (our-remove-if fn (cdr lst))))))
 
 (our-remove-if #'evenp '(1 2 3 4 5 6 7))
 
@@ -79,7 +79,7 @@
 ;;2.6
 (defun list+ (lst n)
   (mapcar #'(lambda (x) (+ x n))
-	  lst))
+          lst))
 
 (list+ '(1 2 3) 10)
 
@@ -101,8 +101,8 @@
 (defun make-adderb(n)
   #'(lambda (x &optional change)
       (if change
-	  (setq n x)
-	  (+ x n))))
+          (setq n x)
+          (+ x n))))
 
 (setq addx (make-adderb 1))
 (funcall addx 3)
@@ -137,24 +137,24 @@ cities
 
 ;;2.7
 (mapcar #'(lambda (x) (+ 2 x))
-	'(2 5 7 3))
+        '(2 5 7 3))
 
 (mapcar #'copy-tree '((a b) (c d e)))
 
 (defun list+ (lst n)
   (mapcar #'(lambda (x) (+ x n))
-	  lst))
+          lst))
 
 (labels ((inc (x) (1+ x)))
   (inc 3))
 
 (defun count-instances (obj lsts)
   (labels (
-	   (instances-in (lst)
-	     (if (consp lst)
-		 (+ (if (eq (car lst) obj) 1 0)
-		    (instances-in (cdr lst)))
-		 0)))
+           (instances-in (lst)
+             (if (consp lst)
+                 (+ (if (eq (car lst) obj) 1 0)
+                    (instances-in (cdr lst)))
+                 0)))
     (mapcar #'instances-in lsts)))
 
 (count-instances 'a '((a b c) (d a r p a) (d a r) (a a)))
@@ -173,19 +173,19 @@ cities
 (defun our-length (lst)
   (labels
       ((rec (lst acc)
-	 (if (null lst)
-	     acc
-	     (rec (cdr lst) (1+ acc)))))
+         (if (null lst)
+             acc
+             (rec (cdr lst) (1+ acc)))))
     (rec lst 0)))
 
 (defun triangle (n)
   (labels
       ((tri (c n)
-	 (declare (type fixnum n c))
-	 (if (zerop n)
-	     c
-	     (tri (the fixnum (+ n c))
-		  (the fixnum (- n 1))))))
+         (declare (type fixnum n c))
+         (if (zerop n)
+             c
+             (tri (the fixnum (+ n c))
+                  (the fixnum (- n 1))))))
     (tri 0 n)))
 
 (triangle 10000)
