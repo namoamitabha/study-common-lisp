@@ -1,9 +1,9 @@
 ;;3.1 Functional Design
 (defun good-reverse (lst)
   (labels ((rev (lst acc)
-	         (if (null lst)
-		     acc
-		     (rev (cdr lst) (cons (car lst) acc)))))
+             (if (null lst)
+                 acc
+                 (rev (cdr lst) (cons (car lst) acc)))))
     (rev lst nil)))
 
 (setq lst '(a b c))
