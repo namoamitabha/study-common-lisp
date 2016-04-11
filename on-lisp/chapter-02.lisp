@@ -65,8 +65,8 @@
 ;;  (funcall (get animal 'behavior)))
 ;;(setf (get 'dog 'behavior)
 ;;      #'(lambda ()
-;;	  (wag-tail)
-;;	  (bark)))
+;;          (wag-tail)
+;;          (bark)))
 
 ;;2.5
 (let ((y 7))
@@ -149,8 +149,7 @@ cities
   (inc 3))
 
 (defun count-instances (obj lsts)
-  (labels (
-           (instances-in (lst)
+  (labels ((instances-in (lst)
              (if (consp lst)
                  (+ (if (eq (car lst) obj) 1 0)
                     (instances-in (cdr lst)))
@@ -171,21 +170,19 @@ cities
       (our-find-if fn (cdr lst))))
 
 (defun our-length (lst)
-  (labels
-      ((rec (lst acc)
-         (if (null lst)
-             acc
-             (rec (cdr lst) (1+ acc)))))
+  (labels ((rec (lst acc)
+             (if (null lst)
+                 acc
+                 (rec (cdr lst) (1+ acc)))))
     (rec lst 0)))
 
 (defun triangle (n)
-  (labels
-      ((tri (c n)
-         (declare (type fixnum n c))
-         (if (zerop n)
-             c
-             (tri (the fixnum (+ n c))
-                  (the fixnum (- n 1))))))
+  (labels ((tri (c n)
+             (declare (type fixnum n c))
+             (if (zerop n)
+                 c
+                 (tri (the fixnum (+ n c))
+                      (the fixnum (- n 1))))))
     (tri 0 n)))
 
 (triangle 10000)
