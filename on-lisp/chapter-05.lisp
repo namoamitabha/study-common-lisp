@@ -31,3 +31,21 @@
 (let ((lst '(1 2 3 4)))
   (equal (delete-if #'oddp lst)
          (funcall (! #'remove-if) #'oddp lst)))
+
+;;5.3 Memoizing
+
+(defun memoize (fn)
+  (let ((cache (make-hash-table :test #'equal)))
+    #'(lambda (&rest args)
+        (multiple-value-bind (val win)
+            (gethash args cache)
+          (if win
+              val
+              (setf (gethash args cache)
+                    (apply fn args)))))))
+
+(setq slowid (memoize #'(lambda (x) (sleep 5) x)))
+
+(time (funcall slowid 1))
+
+(time (funcall slowid 1))
