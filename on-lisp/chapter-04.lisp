@@ -180,3 +180,89 @@
 
 (assert (equal (mostn #'length '((a b) (a b c) (a) (a f g)))
                (values '((a b c) (a f g)) 3)))
+
+
+;;4.5 Mapping
+(equal (mapcan #'(lambda (x y)
+                   (if (null x) nil (list x y)))
+               '(nil nil nil d e)
+               '(1 2 3 4 5 6))
+       '(d 4 e 5))
+
+(equal (mapcan #'(lambda (x)
+                   (and
+                    (numberp x)
+                    (list x)))
+               '(a 1 b c 3 4 d 5))
+       '(1 3 4 5))
+
+(equal (mapcar #'car '((1 a) (2 b) (3 c)))
+       '(1 2 3))
+(equal (mapcar #'abs '(3 -4 2 -5 -6))
+       '(3 4 2 5 6))
+(equal (mapcar #'cons '(a b c) '(1 2 3))
+       '((A . 1) (B . 2) (C . 3)))
+
+(defun mapa-b (fn a b &optional (step 1))
+  (do ((i a (+ i step))
+       (result nil))
+      ((> i b) (nreverse result))
+    (push (funcall fn i) result)))
+
+(assert (equal (mapa-b #'1+ -2 0 .5)
+               '(-1 -0.5 0.0 0.5 1.0)))
+
+;;(defun mapa-b (fn a b &optional (step 1))
+;;  (map-> fn
+;;         a
+;;         #'(lambda (x) (> x b))
+;;         #'(lambda (x) (+ x step))))
+
+(defun map0-n (fn n)
+  (mapa-b fn 0 n))
+
+(assert (equal (map0-n #'1+ 5)
+               '(1 2 3 4 5 6)))
+
+(defun map1-n (fn n)
+  (mapa-b fn 1 n))
+
+(assert (equal (map1-n #'1+ 6)
+               '(2 3 4 5 6 7)))
+
+(defun map-> (fn start test-fn succ-fn)
+  (do ((i start (funcall succ-fn i))
+       (result nil))
+      ((funcall test-fn i) (nreverse result))
+    (push (funcall succ-fn i) result)))
+
+(defun mappend (fn &rest lsts)
+  (apply #'append (apply #'mapcar fn lsts)))
+
+(defun mapcars (fn &rest lsts)
+  (let ((result nil))
+    (dolist (lst lsts)
+      (dolist (obj lst)
+        (push (funcall fn obj) result)))
+    (nreverse result)))
+
+(assert (equal (mapcars #'1+ '(1 2 3) '(4 5 6))
+               '(2 3 4 5 6 7)))
+
+(some #'= '(1 2 3 4 5)
+      '(5 4 3 2 1))
+
+;;?
+(defun rmapcar (fn &rest args)
+  (if (some #'atom args)
+      (apply fn args)
+      (apply #'mapcar
+             #'(lambda (&rest args)
+                 (apply #'rmapcar fn args))
+             args)))
+
+(equal (rmapcar #'princ '(1 2 (3 4 (5) 6) 7 (8 9)))
+       '(1 2 (3 4 (5) 6) 7 (8 9)))
+
+(equal (rmapcar #'+ '(1 (2 (3) 4)) '(10 (20 (30) 40)))
+       '(11 (22 (33) 44)))
