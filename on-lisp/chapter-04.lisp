@@ -298,3 +298,33 @@
           (format *query-io* "~A~%" (funcall fn in))))))
 
 ;;(break-loop #'eval #'(lambda (x) (eq x :q)) ">> ")
+
+
+;;4.7 Symbols and Strings
+(defun mkstr (&rest args)
+  (with-output-to-string (s)
+    (dolist (a args)
+      (princ a s))))
+(assert (equal (mkstr pi " pieces of " 'pi)
+               "3.141592653589793d0 pieces of PI"))
+
+(defun symb (&rest args)
+  (values (intern (apply #'mkstr args))))
+
+(assert (eq (symb 'ar "Madi" #\L #\L 0)
+            '|ARMadiLL0|))
+
+(let ((s (symb '(a b))))
+  (and (eq s '|(A B)|) (eq s '\(A\ B\))))
+
+(defun reread (&rest args)
+  (values (read-from-string (apply #'mkstr args))))
+
+(defun explode (sym)
+  (map 'list #'(lambda (c)
+                 (intern (make-string 1
+                                      :initial-element c)))
+       (symbol-name sym)))
+
+(assert (equal (explode 'bomb)
+               '(B O M B)))
