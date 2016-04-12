@@ -266,3 +266,35 @@
 
 (equal (rmapcar #'+ '(1 (2 (3) 4)) '(10 (20 (30) 40)))
        '(11 (22 (33) 44)))
+
+
+;;4.6 I/O
+(defun readlist (&rest args)
+  (values (read-from-string
+           (concatenate 'string "("
+                        (apply #'read-line args)
+                        ")"))))
+;;(readlist)
+;;(readlist)
+;;Call me "Ed"
+;;(CALL ME "Ed")
+
+(defun prompt (&rest args)
+  (apply #'format *query-io* args)
+  (read *query-io*))
+
+;;(prompt "Enter a number between ~A and ~A.~%" 1 10)
+;;(prompt "Enter a number between ~A and ~A.~%" 1 10)
+;;Enter a number between 1 and 10.
+;;3
+;;3
+
+(defun break-loop (fn quit &rest args)
+  (format *query-io* "Entering break-loop.~%")
+  (loop
+    (let ((in (apply #'prompt args)))
+      (if (funcall quit in)
+          (return)
+          (format *query-io* "~A~%" (funcall fn in))))))
+
+;;(break-loop #'eval #'(lambda (x) (eq x :q)) ">> ")
