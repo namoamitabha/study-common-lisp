@@ -100,4 +100,13 @@
   (assert-true (our-every #'evenp '(2 4 6 8 10)))
   (assert-false (our-every #'oddp '(2 4 6 8 10)))
   (assert-true (funcall (lrec #'(lambda (x f) (and (oddp x) (funcall f))) t)
-                        '(2 4 6 8 10))))
+                        '(2 4 6 8 10)))
+  ;;copy-list
+  ;;(lrec #'(lambda (x f) (cons x (funcall f))))
+  ;;remove-duplicates
+  ;;(lrec #'(lambda (x f) (adjoin x (funcall f))))
+  ;;find-if
+  ;;(lrec #'(lambda (x f) (if (fn x) x (funcall f))))
+  ;;some
+  ;;(lrec #'(lambda (x f) (or (fn x) (funcall f))))
+  )
