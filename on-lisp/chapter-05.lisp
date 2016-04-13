@@ -7,7 +7,9 @@
    :!
    :memoize
    :compose
-   :fif))
+   :fif
+   :fint
+   :fun))
 
 (in-package on-lisp-ch05)
 

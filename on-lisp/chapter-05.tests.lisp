@@ -59,3 +59,21 @@
                 4)
   (assert-equal (funcall (compose #'list #'*) 1 2 3 4 5 6)
                 '(720)))
+
+(define-test test-fif
+    (:tag :unittest)
+  (assert-equal (mapcar (fif #'numberp #'+ #'list) '(1 a 2 b))
+                '(1 (A) 2 (B))))
+
+(define-test test-fint
+    (:tag :unittest)
+  (assert-equal (find-if (fint #'oddp #'plusp #'integerp)
+                         '(2 3 4 5))
+                3))
+
+
+(define-test test-fun
+    (:tag :unittest)
+  (assert-equal '(2 3 4 5 -1)
+                (mapc (fun #'oddp #'plusp #'realp)
+                      '(2 3 4 5 -1))))
