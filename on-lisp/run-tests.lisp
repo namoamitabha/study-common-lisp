@@ -6,7 +6,6 @@
     (load quicklisp-init)))
 
 (load "lisp-unit")
-;;(ql:quickload :lisp-unit)
 
 (use-package :lisp-unit)
 
@@ -16,5 +15,5 @@
 
 (load "chapter-05.lisp")
 (load "chapter-05.tests.lisp")
-(run-tests)
 
+(run-tests)
