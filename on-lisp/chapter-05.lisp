@@ -1,3 +1,9 @@
+(defpackage on-lisp-ch05
+  (:use
+   :common-lisp))
+
+(in-package on-lisp-ch05)
+
 ;;5.1 Common Lisp Evolves
 (defun joiner (obj)
   (typecase obj
@@ -6,7 +12,6 @@
 
 (defun join (&rest args)
   (apply (joiner (car args)) args))
-
 
 ;; (defun complement (fn)
 ;;   #'(lambda (&rest args) (not (apply fn args))))
@@ -120,8 +125,3 @@
             (or (funcall fn x) (funcall chain x))))))
 
 ;;5.5 Recursion on Cdrs
-(define-test test-list-unit
-    (:tag :unittest)
-  ;;(setq *print-readably* t)
-  (assert-prints ":a"(format t "~a" ":a")))
-
