@@ -7,12 +7,9 @@
 (defun join (&rest args)
   (apply (joiner (car args)) args))
 
-(assert (equal (join 1 2 3 4 5) 15))
-(assert (equal (join '(a) '(b) '(c) '(d) '(e))
-               '(a b c d e)))
 
-(defun complement (fn)
-  #'(lambda (&rest args) (not (apply fn args))))
+;; (defun complement (fn)
+;;   #'(lambda (&rest args) (not (apply fn args))))
 
 (assert (equal (remove-if (complement #'oddp) '(1 2 3 4 5 6))
                '(1 3 5)))
@@ -86,8 +83,8 @@
 (assert (equal (funcall (compose #'list #'*) 1 2 3 4 5 6)
                '(720)))
 
-(defun complement (pred)
-  (compose #'not pred))
+;; (defun complement (pred)
+;;   (compose #'not pred))
 
 (defun fif (if then &optional else)
   #'(lambda (x)
@@ -109,11 +106,11 @@
         #'(lambda (x)
             (and (funcall fn x) (funcall chain x))))))
 
-(find-if #'(lambda (x)
-             (and (signed x) (sealed x) (delivered x)))
-         docs)
+;; (find-if #'(lambda (x)
+;;              (and (signed x) (sealed x) (delivered x)))
+;;          docs)
 
-(find-if (fint #'signed #'sealed #'delivered) docs)
+;; (find-if (fint #'signed #'sealed #'delivered) docs)
 
 (defun fun (fn &rest fns)
   (if (null fns)
@@ -121,3 +118,10 @@
       (let ((chain (apply #'fun fns)))
         #'(lambda (x)
             (or (funcall fn x) (funcall chain x))))))
+
+;;5.5 Recursion on Cdrs
+(define-test test-list-unit
+    (:tag :unittest)
+  ;;(setq *print-readably* t)
+  (assert-prints ":a"(format t "~a" ":a")))
+
