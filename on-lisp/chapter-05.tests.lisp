@@ -71,9 +71,33 @@
                          '(2 3 4 5))
                 3))
 
-
 (define-test test-fun
     (:tag :unittest)
   (assert-equal '(2 3 4 5 -1)
                 (mapc (fun #'oddp #'plusp #'realp)
                       '(2 3 4 5 -1))))
+
+(defun our-length (lst)
+  (if (null lst)
+      0
+      (1+ (our-length (cdr lst)))))
+
+(defun our-every (fn lst)
+  (if (null lst)
+      t
+      (and (funcall fn (car lst))
+           (our-every fn (cdr lst)))))
+
+(define-test test-lrec
+    (:tag :unittest)
+  ;;lrec to implement our-length
+  ;; (assert-equal (funcall (lrec #'(lambda (x f)
+  ;;                                  (1+ (funcall f)))
+  ;;                              0)
+  ;;                        '(1 2 3 4 5 6))
+  ;;               6)
+  (assert-equal (our-length '(1 2 3 4 5 6)) 6)
+  (assert-true (our-every #'evenp '(2 4 6 8 10)))
+  (assert-false (our-every #'oddp '(2 4 6 8 10)))
+  (assert-true (funcall (lrec #'(lambda (x f) (and (oddp x) (funcall f))) t)
+                        '(2 4 6 8 10))))

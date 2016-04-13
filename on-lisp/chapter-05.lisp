@@ -9,7 +9,8 @@
    :compose
    :fif
    :fint
-   :fun))
+   :fun
+   :lrec))
 
 (in-package on-lisp-ch05)
 
@@ -97,3 +98,12 @@
             (or (funcall fn x) (funcall chain x))))))
 
 ;;5.5 Recursion on Cdrs
+(defun lrec (rec &optional base)
+  (labels ((self (lst)
+             (if (null lst)
+                 (if (functionp base)
+                     (funcall base)
+                     base)
+                 (funcall rec (car lst)
+                          #'(lambda () (self (cdr lst)))))))
+    #'self))
