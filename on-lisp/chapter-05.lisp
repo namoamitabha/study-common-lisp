@@ -5,19 +5,16 @@
 (in-package on-lisp-ch05)
 
 ;;5.1 Common Lisp Evolves
+(defun join (&rest args)
+  (apply (joiner (car args)) args))
+
 (defun joiner (obj)
   (typecase obj
     (cons #'append)
     (number #'+)))
 
-(defun join (&rest args)
-  (apply (joiner (car args)) args))
-
-;; (defun complement (fn)
-;;   #'(lambda (&rest args) (not (apply fn args))))
-
-(assert (equal (remove-if (complement #'oddp) '(1 2 3 4 5 6))
-               '(1 3 5)))
+(defun complement1 (fn)
+  #'(lambda (&rest args) (not (apply fn args))))
 
 ;;5.2 Orthogonality
 (defvar *!equive* (make-hash-table))
@@ -30,12 +27,8 @@
 
 (def! #'remove-if #'delete-if)
 
-(let ((lst '(1 2 3 4)))
-  (equal (delete-if #'oddp lst)
-         (funcall (! #'remove-if) #'oddp lst)))
 
 ;;5.3 Memoizing
-
 (defun memoize (fn)
   (let ((cache (make-hash-table :test #'equal)))
     #'(lambda (&rest args)
@@ -46,11 +39,6 @@
               (setf (gethash args cache)
                     (apply fn args)))))))
 
-(setq slowid (memoize #'(lambda (x) (sleep 5) x)))
-
-(time (funcall slowid 1))
-
-(time (funcall slowid 1))
 
 ;;5.4 Composing Functions
 (equal (last '(1 2 3)) '(3))
