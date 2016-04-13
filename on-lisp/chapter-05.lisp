@@ -41,20 +41,6 @@
 
 
 ;;5.4 Composing Functions
-(equal (last '(1 2 3)) '(3))
-(equal (last '(a b c) 2) '(b c))
-(equal (butlast '(1 2 3 4 5 6)) '(1 2 3 4 5))
-(equal (butlast '(1 2 3 4 5 6) 3) '(1 2 3))
-
-(equal (reduce #'* '(1 2 3 4 5)) 120)
-(equal (reduce #'append '((1) (2)) :from-end t
-                                   :initial-value '(i n i t))
-       '(1 2 I N I T))
-(equal (reduce #'list '(1 2 3 4)) '(((1 2) 3) 4))
-(equal (reduce #'list '(1 2 3 4)
-               :from-end t :initial-value 'foo)
-       '(1 (2 (3 (4 foo)))))
-
 (defun compose (&rest fns)
   (if fns
       (let ((fn1 (car (last fns)))
@@ -64,20 +50,9 @@
                     :from-end t
                     :initial-value (apply fn1 args))))
       #'identity))
-(assert (equal (funcall (compose #'list #'1+) 1)
-               '(2)))
 
-(assert (equal (funcall #'(lambda (x) (list (1+ x))) 1)
-               '(2)))
-
-(assert (equal (funcall (compose #'1+ #'find-if) #'oddp '(2 3 4))
-               4))
-
-(assert (equal (funcall (compose #'list #'*) 1 2 3 4 5 6)
-               '(720)))
-
-;; (defun complement (pred)
-;;   (compose #'not pred))
+(defun complement2 (pred)
+  (compose #'not pred))
 
 (defun fif (if then &optional else)
   #'(lambda (x)
