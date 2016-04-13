@@ -1,6 +1,13 @@
 (defpackage on-lisp-ch05
-  (:use
-   :common-lisp))
+  (:use :common-lisp)
+  (:export
+   :join
+   :joiner
+   :complement1
+   :!
+   :memoize
+   :compose
+   :fif))
 
 (in-package on-lisp-ch05)
 

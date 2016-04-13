@@ -1,9 +1,12 @@
-;;(use-package :on-lisp-ch05)
+(defpackage on-lisp-ch05.tests
+  (:use :common-lisp :lisp-unit :on-lisp-ch05))
+
+(in-package :on-lisp-ch05.tests)
 
 (define-test test-join
     (:tag :unittest)
-  (assert-equal (on-lisp-ch05::join 1 2 3 4 5) 15)
-  (assert-equal (on-lisp-ch05::join '(a) '(b) '(c) '(d) '(e))
+  (assert-equal (join 1 2 3 4 5) 15)
+  (assert-equal (join '(a) '(b) '(c) '(d) '(e))
                 '(a b c d e)))
 
 (define-test test-list-unit
@@ -13,18 +16,18 @@
 
 (define-test test-remove-if
     (:tag :unittest)
-  (assert-equal (remove-if (complement #'oddp) '(1 2 3 4 5 6))
+  (assert-equal (remove-if (complement1 #'oddp) '(1 2 3 4 5 6))
                 '(1 3 5)))
 
 (define-test test-!
     (:tag :unittest)
   (let ((lst '(1 2 3 4)))
     (assert-equal (delete-if #'oddp lst)
-                  (funcall (on-lisp-ch05::! #'remove-if) #'oddp lst))))
+                  (funcall (! #'remove-if) #'oddp lst))))
 
 (define-test test-memoize
     (:tag :unittest)
-  (let ((slowid (on-lisp-ch05::memoize #'(lambda (x) (sleep 1) x))))
+  (let ((slowid (memoize #'(lambda (x) (sleep 1) x))))
     (time (funcall slowid 1))
     (time (funcall slowid 1))))
 
@@ -48,11 +51,11 @@
 
 (define-test test-compose
     (:tag :unittest)
-  (assert-equal (funcall (on-lisp-ch05::compose #'list #'1+) 1)
+  (assert-equal (funcall (compose #'list #'1+) 1)
                 '(2))
   (assert-equal (funcall #'(lambda (x) (list (1+ x))) 1)
                 '(2))
-  (assert-equal (funcall (on-lisp-ch05::compose #'1+ #'find-if) #'oddp '(2 3 4))
+  (assert-equal (funcall (compose #'1+ #'find-if) #'oddp '(2 3 4))
                 4)
-  (assert-equal (funcall (on-lisp-ch05::compose #'list #'*) 1 2 3 4 5 6)
+  (assert-equal (funcall (compose #'list #'*) 1 2 3 4 5 6)
                 '(720)))
