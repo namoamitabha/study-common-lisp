@@ -22,7 +22,7 @@
 (define-test test-!
     (:tag :unittest)
   (let ((lst '(1 2 3 4)))
-    (assert-equal (delete-if #'oddp lst)
+    (assert-equal (remove-if #'oddp lst)
                   (funcall (! #'remove-if) #'oddp lst))))
 
 (define-test test-memoize
