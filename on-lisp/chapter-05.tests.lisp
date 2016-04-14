@@ -1,7 +1,7 @@
-(defpackage on-lisp-ch05.tests
-  (:use :common-lisp :lisp-unit :on-lisp-ch05))
+(defpackage on-lisp.ch05.tests
+  (:use :common-lisp :lisp-unit :on-lisp.ch05))
 
-(in-package :on-lisp-ch05.tests)
+(in-package :on-lisp.ch05.tests)
 
 (define-test test-join
     (:tag :unittest)
@@ -88,6 +88,7 @@
       (and (funcall fn (car lst))
            (our-every fn (cdr lst)))))
 
+;;(setq *print-circle* t)
 (define-test test-lrec
     (:tag :unittest)
   ;;lrec to implement our-length
@@ -109,4 +110,40 @@
   ;;(lrec #'(lambda (x f) (if (fn x) x (funcall f))))
   ;;some
   ;;(lrec #'(lambda (x f) (or (fn x) (funcall f))))
+  )
+
+(define-test test-our-copy-tree
+    (:tag :unittest)
+  (let ((lst '(a (b (c (d (e)))))))
+    (assert-equal lst (our-copy-tree lst))))
+
+(define-test test-count-leaves
+    (:tag :unittest)
+  (assert-equal 10 (count-leaves '((a b (c d)) (e) f))))
+
+(define-test test-flatten
+    (:tag :unittest)
+  (assert-equal '(a b c d e f)
+                (flatten '((a b (c d)) (e) f ()))))
+
+(define-test test-rfind-if
+    (:tag :unittest)
+  (assert-equal 3
+                (rfind-if (fint #'numberp #'oddp) '(2 (3 4) 5))))
+
+;;TODO:test-ttrav
+(define-test test-ttrav
+    (:tag :unittest)
+  ;; our-copy-tree
+  (let ((lst '(a (b (c (d (e)))))))
+    (assert-equal lst (funcall (ttrav #'cons) lst)))
+  ;;count-leaves
+  ;;flatten
+  )
+
+;;TODO: test-trec
+(define-test test-trec
+    (:tag :unittest)
+  ;;flatten
+  ;;rfind-if
   )

@@ -1,5 +1,5 @@
-(defpackage on-lisp-ch05
-  (:use :common-lisp)
+(defpackage on-lisp.ch05
+  (:use :common-lisp :on-lisp.util)
   (:export
    :join
    :joiner
@@ -10,9 +10,15 @@
    :fif
    :fint
    :fun
-   :lrec))
+   :lrec
+   :our-copy-tree
+   :count-leaves
+   :flatten
+   :rfind-if
+   :ttrav
+   :trec))
 
-(in-package on-lisp-ch05)
+(in-package on-lisp.ch05)
 
 ;;5.1 Common Lisp Evolves
 (defun join (&rest args)
@@ -106,4 +112,59 @@
                      base)
                  (funcall rec (car lst)
                           #'(lambda () (self (cdr lst)))))))
+    #'self))
+
+;;5.6 Recursion on Subtrees
+(setq x '(a b)
+            listx (list x 1))
+(eq x (car (copy-list listx)))
+(eq x (car (copy-tree listx)))
+
+(defun our-copy-tree (tree)
+  (if (atom tree)
+      tree
+      (cons (our-copy-tree (car tree))
+            (if (cdr tree) (our-copy-tree (cdr tree))))))
+
+(defun count-leaves (tree)
+  (if (atom tree)
+      1
+      (+ (count-leaves (car tree))
+         (or (if (cdr tree) (count-leaves (cdr tree)))
+             1))))
+
+(defun flatten (tree)
+  (if (atom tree)
+      (mklist tree)
+      (nconc (flatten (car tree))
+             (if (cdr tree) (flatten (cdr tree))))))
+
+(defun rfind-if (fn tree)
+  (if (atom tree)
+      (and (funcall fn tree) tree)
+      (or (rfind-if fn (car tree))
+          (if (cdr tree) (rfind-if fn (cdr tree))))))
+
+(defun ttrav (rec &optional (base #'identity))
+  (labels ((self (tree)
+             (if (atom tree)
+                 (if (functionp base)
+                     (funcall base)
+                     base)
+                 (funcall rec
+                          (self (car tree))
+                          (if (cdr tree)
+                              (self (cdr tree)))))))
+    #'self))
+
+(defun trec (rec &optional (base #'identity))
+  (labels ((self (tree)
+             (if (atom tree)
+                 (if (functionp base)
+                     (funcall base)
+                     base)
+                 (funcall rec tree
+                          #'(lambda () (self (car tree)))
+                          #'(lambda () (if (cdr tree)
+                                           (self (cdr tree))))))))
     #'self))
