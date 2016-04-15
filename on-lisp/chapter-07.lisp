@@ -59,3 +59,37 @@
   `(do ()
        ((not ,test))
      ,@body))
+
+;;7.4 Testing Macroexpansion
+(pprint (macroexpand '(while (able) (laugh))))
+;; (BLOCK NIL
+;;   (LET ()
+;;     (TAGBODY
+;;       (GO #:G1052)
+;;      #:G1051
+;;       (TAGBODY (LAUGH))
+;;       (PSETQ)
+;;      #:G1052
+;;       (UNLESS (NOT (ABLE)) (GO #:G1051))
+;;       (RETURN-FROM NIL (PROGN)))))
+(pprint (macroexpand-1 '(while (able) (laugh))))
+;;(DO () ((NOT (ABLE))) (LAUGH))
+
+(pprint (macroexpand-1 '(or x y)))
+;; (LET ((#:G1048 X))
+;;   (IF #:G1048
+;;       #:G1048
+;;       (OR Y)))
+
+(defmacro mac (expr)
+  `(pprint (macroexpand-1 ',expr)))
+
+(mac '(or x y))
+
+(setq exp (macroexpand-1 '(memq 'a '(a b c))))
+(eval exp)
+
+;; >> (setq exp (macroexpand-1 '(memq 'a '(a b c))))
+;; (MEMBER 'A '(A B C) :TEST #'EQ)
+;; >> (eval exp)
+;; (A B C)
