@@ -18,10 +18,9 @@
 (load "chapter-05.lisp")
 (load "chapter-05.tests.lisp")
 
+(lisp-unit:run-tests :all :on-lisp.ch05.tests)
+
 (load "chapter-07.lisp")
 (load "chapter-07.tests.lisp")
-
-
-(lisp-unit:run-tests :all :on-lisp.ch05.tests)
 
 (lisp-unit:run-tests :all :on-lisp.ch07.tests)
