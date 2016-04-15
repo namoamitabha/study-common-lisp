@@ -14,9 +14,14 @@
 (setq *print-errors* t)
 
 (load "util.lisp")
+
 (load "chapter-05.lisp")
 (load "chapter-05.tests.lisp")
 
-(in-package :on-lisp.ch05.tests)
+(load "chapter-07.lisp")
+(load "chapter-07.tests.lisp")
 
-(run-tests)
+
+(lisp-unit:run-tests :all :on-lisp.ch05.tests)
+
+(lisp-unit:run-tests :all :on-lisp.ch07.tests)

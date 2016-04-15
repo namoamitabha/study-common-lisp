@@ -135,8 +135,8 @@
 (define-test test-ttrav
     (:tag :unittest)
   ;; our-copy-tree
-  (let ((lst '(a (b (c (d (e)))))))
-    (assert-equal lst (funcall (ttrav #'cons) lst)))
+  ;; (let ((lst '(a (b (c (d (e)))))))
+  ;;   (assert-equal lst (funcall (ttrav #'cons) lst)))
   ;;count-leaves
   ;;flatten
   )
