@@ -51,3 +51,16 @@
     (:tag :unittest)
   (assert-equal `(ON-LISP.CH07::HELLO ON-LISP.CH07.TESTS::NIKE)
                 (greet 'nike)))
+
+(define-test test-memq
+    (:tag :unittest)
+  (assert-equal nil
+                (memq 'ON-LISP.CH07.TESTS::B '("a" 'b 'c "d"))))
+
+(define-test test-while
+    (:tag :unittest)
+  (let ((x 0) (result 0))
+    (while (<= x 100)
+           (setq result (+ result x)
+                 x (1+ x)))
+    (assert-equal 5050 result)))

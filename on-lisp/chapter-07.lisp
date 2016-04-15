@@ -7,7 +7,9 @@
    :nif
    :nif1
    :our-when
-   :greet))
+   :greet
+   :memq
+   :while))
 
 (in-package :on-lisp.ch07)
 
@@ -48,3 +50,12 @@
 
 (defun greet (name)
   `(hello ,name))
+
+;;7.3 defining simple macros
+(defmacro memq (obj lst)
+  `(member ,obj ,lst :test #'eq))
+
+(defmacro while (test &body body)
+  `(do ()
+       ((not ,test))
+     ,@body))
