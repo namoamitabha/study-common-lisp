@@ -9,7 +9,8 @@
    :our-when
    :greet
    :memq
-   :while))
+   :while
+   :our-dolist))
 
 (in-package :on-lisp.ch07)
 
@@ -93,3 +94,22 @@
 ;; (MEMBER 'A '(A B C) :TEST #'EQ)
 ;; >> (eval exp)
 ;; (A B C)
+
+;;7.5 Destructuring in Parameter Lists
+(equal (destructuring-bind (x (y) . z) '(a (b) c d)
+         (list x y z))
+       '(a b (c d)))
+
+(defmacro our-dolist ((var list &optional result) &body body)
+  `(progn
+     (mapc #'(lambda (,var) ,@body)
+           ,list)
+     (let ((,var nil))
+       ,result)))
+
+(defmacro when-bind ((var expr) &body body)
+  `(let ((,var ,expr))
+     (when ,var
+       ,@body)))
+
+;;7.6 A Model of Macros

@@ -64,3 +64,15 @@
            (setq result (+ result x)
                  x (1+ x)))
     (assert-equal 5050 result)))
+
+(define-test test-our-dolist
+    (:tag :unittest)
+  (let ((result 0))
+    (our-dolist (x '(1 2 3) result)
+      (setq result (+ result x)))
+    (assert-equal 6 result)))
+
+(define-test test-when-bind
+    (:tag :unittest)
+  (let ((x))
+    (pprint (macroexpand-1 '(when-bind (x '(1 2 3)) (pprint 'x))))))
