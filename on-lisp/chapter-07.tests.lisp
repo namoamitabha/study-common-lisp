@@ -76,3 +76,27 @@
     (:tag :unittest)
   (let ((x))
     (pprint (macroexpand-1 '(when-bind (x '(1 2 3)) (pprint 'x))))))
+
+(define-test test-psetq
+    (:tag :unittest)
+  (let ((a 1))
+    (setq a 2 b a)
+    (assert-equal (list a b)
+                  '(2 2)))
+  (let ((a 1))
+    (psetq a 2 b a)
+    (assert-equal (list a b)
+                  '(2 1))))
+
+(define-test test-cadr
+    (:tag :unittest)
+  (let ((lst '(1 2 3 4 5 6 7 8)))
+    ;;(second lst)
+    (assert-equal (car (cdr lst))
+                  (cadr lst))
+    ;;(third lst)
+    (assert-equal (car (cdr (cdr lst)))
+                  (caddr lst))
+    ;;(fourth lst)
+    (assert-equal (car (cdr (cdr (cdr lst))))
+                  (cadddr lst))))

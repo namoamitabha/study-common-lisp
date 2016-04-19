@@ -130,3 +130,36 @@
                    (destructuring-bind ,parms (cdr ,g)
                      ,@body))))
        ',name)))
+
+;;7.7 Macro as Programs
+(let ((a 1))
+  (setq a 2 b a)
+  (list a b))
+
+(let ((a 1))
+  (psetq a 2 b a)
+  (list a b))
+
+(defmacro our-do (bindforms (test &rest result) &body body)
+  (let ((label (gensym)))
+    `(prog ,(make-iniforms bindforms)
+        ,label
+        (if ,test
+            (return (progn ,@result)))
+        ,@body
+        (psetq ,@(make-stepforms bindforms))
+        (go ,label))))
+
+(defun make-initforms (bindforms)
+  (mapcar #'(lambda (b)
+              (if (consp b)
+                  (list (car b) (cadr b))
+                  (list b nil)))
+          bindforms))
+
+(defun make-stepforms (bindforms)
+  (mapcan #'(lambda (b)
+              (if (and (consp b) (third b))
+                  (list (car b) (third))
+                  nil))
+          bindforms))
