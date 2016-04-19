@@ -79,11 +79,11 @@
 
 (define-test test-psetq
     (:tag :unittest)
-  (let ((a 1))
+  (let ((a 1) b)
     (setq a 2 b a)
     (assert-equal (list a b)
                   '(2 2)))
-  (let ((a 1))
+  (let ((a 1) b)
     (psetq a 2 b a)
     (assert-equal (list a b)
                   '(2 1))))
@@ -100,3 +100,15 @@
     ;;(fourth lst)
     (assert-equal (car (cdr (cdr (cdr lst))))
                   (cadddr lst))))
+
+(define-test test-our-and
+    (:tag :unittest)
+  ;;(assert-true (our-and 1 2 3 4 5 6 7))
+  (assert-equal (our-and 1 2 3 4 5 6 7)
+                7)
+  (assert-equal (our-and 1 2 3 4 5 6 7 nil)
+                nil)
+  (assert-equal (our-andb 1 2 3 4 5 6 7)
+                7)
+  (assert-equal (our-andb 1 2 3 4 5 6 7 nil)
+                nil))

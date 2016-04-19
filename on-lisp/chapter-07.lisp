@@ -10,7 +10,9 @@
    :greet
    :memq
    :while
-   :our-dolist))
+   :our-dolist
+   :our-and
+   :our-andb))
 
 (in-package :on-lisp.ch07)
 
@@ -87,8 +89,9 @@
 
 (mac '(or x y))
 
-(setq exp (macroexpand-1 '(memq 'a '(a b c))))
-(eval exp)
+(let (exp)
+  (setq exp (macroexpand-1 '(memq 'a '(a b c))))
+  (eval exp))
 
 ;; >> (setq exp (macroexpand-1 '(memq 'a '(a b c))))
 ;; (MEMBER 'A '(A B C) :TEST #'EQ)
@@ -132,11 +135,11 @@
        ',name)))
 
 ;;7.7 Macro as Programs
-(let ((a 1))
+(let ((a 1) b)
   (setq a 2 b a)
   (list a b))
 
-(let ((a 1))
+(let ((a 1) b)
   (psetq a 2 b a)
   (list a b))
 
@@ -160,6 +163,24 @@
 (defun make-stepforms (bindforms)
   (mapcan #'(lambda (b)
               (if (and (consp b) (third b))
-                  (list (car b) (third))
+                  (list (car b) (third b))
                   nil))
           bindforms))
+
+;;7.8 Macro Style
+(defmacro our-and (&rest args)
+  (case (length args)
+    (0 t)
+    (1 (car args))
+    (t `(if ,(car args)
+            (our-and ,@(cdr args))))))
+
+(defmacro our-andb (&rest args)
+  (if (null args)
+      t
+      (labels ((expander (rest)
+                 (if (cdr rest)
+                     `(if ,(car rest)
+                          ,(expander (cdr rest)))
+                     (car rest))))
+        (expander args))))
