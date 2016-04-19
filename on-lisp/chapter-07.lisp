@@ -239,3 +239,15 @@
 (defmacro foo (x y z)
   `(list ,x (let ((x ,y))
               (list x ,z))))
+
+
+;;7.11 Symbol Macros
+(symbol-macrolet ((hi (progn (print "Howdy")
+                             1)))
+  (+ hi 2))
+
+;; >> (symbol-macrolet ((hi (progn (print "Howdy")
+;;                              1)))
+;;   (+ hi 2))
+;; "Howdy"
+;; 3
