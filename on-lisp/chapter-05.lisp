@@ -115,10 +115,11 @@
     #'self))
 
 ;;5.6 Recursion on Subtrees
-(setq x '(a b)
-            listx (list x 1))
-(eq x (car (copy-list listx)))
-(eq x (car (copy-tree listx)))
+(let (x listx)
+  (setq x '(a b)
+        listx (list x 1))
+  (eq x (car (copy-list listx)))
+  (eq x (car (copy-tree listx))))
 
 (defun our-copy-tree (tree)
   (if (atom tree)
