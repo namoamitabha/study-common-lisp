@@ -203,3 +203,39 @@
 ;; >> (funcall fn 1)
 ;; 2
 ;; >>
+
+;;7.10 Macros from Functions
+(defun our-second (x)
+  (cadr x))
+
+(defmacro our-second (x)
+  `(cadr ,x))
+
+
+(defun noisy-second (x)
+  (princ "Someone is taking a cadr!")
+  (cadr x))
+
+(defmacro noisy-second (x)
+  `(progn
+     (princ "Someone is taking a cadr!")
+     (cadr ,x)))
+
+
+(defun sum (&rest args)
+  (apply #'+ args))
+
+(defmacro sum (&rest args)
+  `(apply #'+ ,@args))
+
+(defmacro sum (&rest args)
+  `(+ ,@args))
+
+
+(defun foo (x y z)
+  (list x (let ((x y))
+            (list x z))))
+
+(defmacro foo (x y z)
+  `(list ,x (let ((x ,y))
+              (list x ,z))))
