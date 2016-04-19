@@ -184,3 +184,22 @@
                           ,(expander (cdr rest)))
                      (car rest))))
         (expander args))))
+
+;;7.9 Dependence on Macros
+(let ((fn))
+  (defmacro mac (x) `(1+ ,x))
+  (setq fn (compile nil '(lambda (y) (mac y))))
+  (defmacro mac (x) `(+ ,x 100))
+  (funcall fn 1))
+
+;; >> (defmacro mac (x) `(1+ ,x))
+;; MAC
+;; >> (setq fn (compile nil '(lambda (y) (mac y))))
+;; #<FUNCTION (LAMBDA (Y)) {D1635F5}>
+;; >> (defmacro mac (x) `(+ ,x 100))
+;; MAC
+;; >> (defmacro mac (x) `(+ ,x 100))
+;; MAC
+;; >> (funcall fn 1)
+;; 2
+;; >>
