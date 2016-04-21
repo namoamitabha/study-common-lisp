@@ -20,12 +20,12 @@ Source: helloname.lisp
 CommonQt Tutorial #3: Intro to Layouts  
 https://cheryllium.wordpress.com/2014/03/05/commonqt-tutorial-3/  
 Source: QGridLayout-example.lisp, QBoxLayout-example.lisp  
-![Screenshot](./QGridLayout-example-screenshot.png?raw=true "QGridLayout-example-screenshot.png")
+![Screenshot](./QGridLayout-example-screenshot.png?raw=true "QGridLayout-example-screenshot.png")  
 ![Screenshot](./QBoxLayout-example-screenshot.png?raw=true "QBoxLayout-example-screenshot.png")  
 
 
 CommonQt Tutorial #4: Menu and Status Bars  
 https://cheryllium.wordpress.com/2014/04/13/commonqt-tutorial-4/  
-Source: Menu-StatusBar-example.lisp
+Source: Menu-StatusBar-example.lisp  
 ![Screenshot](./Menu-StatusBar-example-screenshot.png?raw=true "Menu-StatusBar-example-screenshot.png")
 
