@@ -10,7 +10,8 @@
   (:metaclass qt-class)
   (:qt-superclass "QMainWindow")
   (:slots ("reverse-name()" reverse-name)
-          ("capitalize-name()" capitalize-name)))
+          ("capitalize-name()" capitalize-name)
+          ("open-file-click()" open-file-click)))
 
 (defmethod initialize-instance :after
     ((instance status-bar-app) &key)
@@ -38,6 +39,9 @@
   (#_setStatusTip (name-edit instance) "Type name here!")
   (#_setStatusTip (reverse-button instance) "Reverse your name")
   (#_setStatusTip (capital-button instance) "Capitalize your name")
+  (let ((action (#_new QAction "Open File" instance)))
+    (#_addAction (#_addMenu (#_menuBar instance) "File") action)
+    (connect action "triggered()" instance "open-file-click()"))
   (connect (reverse-button instance) "clicked()" instance "reverse-name()")
   (connect (capital-button instance) "clicked()" instance "capitalize-name()"))
 
@@ -56,6 +60,10 @@
                    (concatenate 'string "Result: "
                                 (string-capitalize (princ-to-string name)))
                    "ERROR"))))
+
+(defmethod open-file-click ((instance status-bar-app))
+  (#_setText (result-label instance)
+             "Open File menu clicked"))
 
 (make-qapplication)
 (with-main-window (window (make-instance 'status-bar-app)))
