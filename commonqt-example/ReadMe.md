@@ -16,5 +16,10 @@ Source: helloname.lisp
 
 
 CommonQt Tutorial #3: Intro to Layouts  
-https://cheryllium.wordpress.com/2014/03/05/commonqt-tutorial-3/
-Source: QGridLayout-example.lisp, QBoxLayout-example.lisp  
+https://cheryllium.wordpress.com/2014/03/05/commonqt-tutorial-3/  
+Source: QGridLayout-example.lisp, QBoxLayout-example.lisp
+
+
+CommonQt Tutorial #4: Menu and Status Bars  
+https://cheryllium.wordpress.com/2014/04/13/commonqt-tutorial-4/  
+Source: Menu-StatusBar-example.lisp  
