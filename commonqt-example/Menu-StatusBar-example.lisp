@@ -34,6 +34,10 @@
     (#_setLayout central-widget box)
     (#_setCentralWidget instance central-widget))
   (#_setMinimumWidth (result-label instance) 300)
+  (#_showMessage (#_statusBar instance) "Hello")
+  (#_setStatusTip (name-edit instance) "Type name here!")
+  (#_setStatusTip (reverse-button instance) "Reverse your name")
+  (#_setStatusTip (capital-button instance) "Capitalize your name")
   (connect (reverse-button instance) "clicked()" instance "reverse-name()")
   (connect (capital-button instance) "clicked()" instance "capitalize-name()"))
 
