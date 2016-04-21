@@ -8,7 +8,7 @@ CommonQt Tutorial #1: Hello World
 https://cheryllium.wordpress.com/2014/02/22/commonqt-tutorial-1/  
 install commonqt  
 source: helloworld.lisp
-
+![Screenshot](./helloworld-screenshot.png?raw=true "helloworld-screenshot.png")
 
 CommonQt Tutorial #2: Hello Name  
 https://cheryllium.wordpress.com/2014/03/03/commonqt-tutorial-2/  
