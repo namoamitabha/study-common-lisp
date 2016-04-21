@@ -12,4 +12,9 @@ source: helloworld.lisp
 
 CommonQt Tutorial #2: Hello Name  
 https://cheryllium.wordpress.com/2014/03/03/commonqt-tutorial-2/  
-Source: helloname.lisp  
+Source: helloname.lisp
+
+
+CommonQt Tutorial #3: Intro to Layouts  
+https://cheryllium.wordpress.com/2014/03/05/commonqt-tutorial-3/
+Source: QGridLayout-example.lisp, QBoxLayout-example.lisp  
