@@ -29,3 +29,13 @@ https://cheryllium.wordpress.com/2014/04/13/commonqt-tutorial-4/
 Source: Menu-StatusBar-example.lisp  
 ![Screenshot](./Menu-StatusBar-example-screenshot.png?raw=true "Menu-StatusBar-example-screenshot.png")
 
+
+Common Lisp GUI with scientific plots  
+https://gorkovchanin.wordpress.com/2015/06/03/common-lisp-gui-with-scientific-plots/  
+Source: Common-Lisp-GUI-with-scientific-plots.lisp  
+Status: doesn't work and missing .ui file  
+
+Building a Common Lisp GUI with CommonQt  
+https://gorkovchanin.wordpress.com/2015/05/02/building-a-common-lisp-gui-with-commonqt/  
+Source: Building-a-Common-Lisp-GUI-with-CommonQt.lisp
+Status: doesn't work and missing .ui file  
