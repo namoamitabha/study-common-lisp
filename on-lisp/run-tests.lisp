@@ -5,7 +5,7 @@
   (when (probe-file quicklisp-init)
     (load quicklisp-init)))
 
-(load "lisp-unit")
+(load "../lisp-unit.lisp")
 
 (use-package :lisp-unit)
 
