@@ -50,3 +50,64 @@
     (assert-equal 3 (elt x 2))
     (setf (elt *x* 1) 10)
     (assert-equal 10 (elt *x* 1))))
+
+(define-test test-Sequence-Iterating-Functions
+    (:tag :unittest)
+  (let ((vec #(1 2 1 2 3 1 2 3 4))
+        (lst '(1 2 1 2 3 1 2 3 4))
+        (str "foobarbaz"))
+    (assert-equal 3 (count 1 vec))
+    (assert-equality #'equalp
+                     #(2 2 3 2 3 4)
+                     (remove 1 vec))
+    (assert-equality #'equalp
+                     '(2 2 3 2 3 4)
+                     (remove 1 lst))
+    (assert-equal "foobrbz"
+                  (remove #\a str))
+    (assert-equality #'equalp
+                     #(10 2 10 2 3 10 2 3 4)
+                     (substitute 10 1 vec))
+    (assert-equality #'equalp
+                     '(10 2 10 2 3 10 2 3 4)
+                     (substitute 10 1 lst))
+    (assert-equal "fooxarxaz"
+                  (substitute #\x #\b str))
+    (assert-equal 1
+                  (find 1 vec))
+    (assert-false (find 10 vec))
+    (assert-equal 0
+                  (position 1 vec))
+    (assert-equal 1
+                  (count "foo" #("foo" "bar" "baz") :test #'string=))
+    (assert-equal '(C 30)
+                    (find 'c #((a 10) (b 20) (c 30) (d 40)) :key #'first))
+    (let ((vec2 #((a 10) (b 20) (a 30) (d 40))))
+      (assert-equal '(A 10)
+                    (find 'a vec2 :key #'first))
+      (assert-equal '(A 30)
+                    (find 'a vec2 :key #'first :from-end t)))
+    (let ((str2 "foobarbaz"))
+      (assert-equal "foobrbaz"
+                    (remove #\a str2 :count 1))
+      (assert-equal "foobarbz"
+                    (remove #\a str2 :count 1 :from-end t)))
+    ))
+
+(defparameter *v* #((a 10) (b 20) (a 30) (d 40)))
+(defun verbose-first (x)
+  (format t "Looking at ~s~%" x)
+  (first x))
+
+(count 'a *v* :key #'verbose-first)
+;; Looking at (A 10)
+;; Looking at (B 20)
+;; Looking at (A 30)
+;; Looking at (D 40)
+;; 2
+(count 'a *v* :key #'verbose-first :from-end t)
+;; Looking at (D 40)
+;; Looking at (A 30)
+;; Looking at (B 20)
+;; Looking at (A 10)
+;; 2
