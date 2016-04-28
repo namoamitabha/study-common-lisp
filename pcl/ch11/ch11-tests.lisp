@@ -27,7 +27,7 @@
                                       :fill-pointer 0
                                       :adjustable t)))
     (dotimes (x 6 t)
-      (print (length array-adjustable))
+      ;;(print (length array-adjustable))
       (if (> 2 (length array-adjustable))
           (vector-push 'a array-adjustable)
           (vector-push-extend 'a array-adjustable)))
@@ -40,3 +40,13 @@
           (vector-push #\a str)
           (vector-push-extend #\b str)))
     (assert-equal 6 (length str))))
+
+(defparameter *x* #(1 2 3))
+(define-test test-Vectors-as-Sequences
+    (:tag :unittest)
+  (let ((x #(1 2 3)))
+    (assert-equal 3 (length x))
+    (assert-equal 1 (elt x 0))
+    (assert-equal 3 (elt x 2))
+    (setf (elt *x* 1) 10)
+    (assert-equal 10 (elt *x* 1))))
