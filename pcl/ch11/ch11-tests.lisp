@@ -23,10 +23,20 @@
     (assert-equal 5 (length array)))
   ;; :adjustable
   ;; to use vector-push-extend
-  (let ((array-adjustable (make-array 2 :fill-pointer 0 :adjustable t)))
+  (let ((array-adjustable (make-array 2
+                                      :fill-pointer 0
+                                      :adjustable t)))
     (dotimes (x 6 t)
       (print (length array-adjustable))
       (if (> 2 (length array-adjustable))
           (vector-push 'a array-adjustable)
           (vector-push-extend 'a array-adjustable)))
-    (assert-equal 6 (length array-adjustable))))
+    (assert-equal 6 (length array-adjustable)))
+  (let ((str (make-array 5 :fill-pointer 0
+                           :adjustable t
+                           :element-type 'character)))
+    (dotimes (x 6 t)
+      (if (> 2 (length str))
+          (vector-push #\a str)
+          (vector-push-extend #\b str)))
+    (assert-equal 6 (length str))))
