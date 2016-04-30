@@ -137,4 +137,9 @@
                    #("foo" "bar")
                    (remove-if-not #'alpha-char-p
                                   #("foo" "bar" "1baz")
-                                  :key #'(lambda (x) (elt x 0)))))
+                                  :key #'(lambda (x) (elt x 0))))
+  (assert-equality #'equalp
+                   #(1 2 3 4)
+                   (remove-duplicates #(1 2 1 2 3 1 2 3 4))))
+
+
