@@ -171,3 +171,23 @@
   (assert-equality #'equalp
                    '(1 2 3 4 5 6)
                    (merge 'list #(1 3 5) #(2 4 6) #'<)))
+
+(defparameter *y* (copy-seq "foobarbaz"))
+(define-test test-Subsequence-manipulations
+    (:tag :unittest)
+  (let ((str "foobarbaz"))
+    (assert-equal "barbaz"
+                  (subseq str 3))
+    (assert-equal "bar"
+                  (subseq str 3 6)))
+  (setf (subseq *y* 3 6) "xxx")
+  (assert-equal "fooxxxbaz" *y*)
+  (setf (subseq *y* 3 6) "abcd")
+  (assert-equal "fooabcbaz" *y*)
+  (setf (subseq *y* 3 6) "xx")
+  (assert-equal "fooxxcbaz" *y*)
+  (let ((str "foobarbaz"))
+    (assert-equal 3 (position #\b str))
+    (assert-equal 3 (search "bar" str)))
+  (assert-equal 3 (mismatch "foobarbaz" "foom"))
+  (assert-equal 3 (mismatch "foobar" "bar" :from-end t)))
