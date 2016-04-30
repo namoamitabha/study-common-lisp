@@ -157,4 +157,17 @@
                    "abcdef"
                    (concatenate 'string "abc" '(#\d #\e #\f))))
 
-
+(define-test test-sorting-and-merging
+    (:tag :unittest)
+  (assert-equality #'equalp
+                   #("bar" "baz" "foo")
+                   (sort (vector "foo" "bar" "baz") #'string<))
+  (assert-equality #'equalp
+                   #("foo" "baz" "bar")
+                   (stable-sort (vector "foo" "bar" "baz") #'string>))
+  (assert-equality #'equalp
+                   #(1 2 3 4 5 6)
+                   (merge 'vector #(1 3 5) #(2 4 6) #'<))
+  (assert-equality #'equalp
+                   '(1 2 3 4 5 6)
+                   (merge 'list #(1 3 5) #(2 4 6) #'<)))
