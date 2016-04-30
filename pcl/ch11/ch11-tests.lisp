@@ -142,4 +142,19 @@
                    #(1 2 3 4)
                    (remove-duplicates #(1 2 1 2 3 1 2 3 4))))
 
+(define-test test-whole-sequence-manipulations
+    (:tag :unittest)
+  (let ((str "a string"))
+    (assert-true (equalp str (copy-seq str)))
+    (assert-false (eql str (copy-seq str))))
+  (assert-equality #'equalp
+                   #(1 2 3 4 5 6)
+                   (concatenate 'vector #(1 2 3) '(4 5 6)))
+  (assert-equality #'equalp
+                   '(1 2 3 4 5 6)
+                   (concatenate 'list #(1 2 3) '(4 5 6)))
+  (assert-equality #'equalp
+                   "abcdef"
+                   (concatenate 'string "abc" '(#\d #\e #\f))))
+
 
