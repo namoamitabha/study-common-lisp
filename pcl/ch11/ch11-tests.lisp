@@ -99,15 +99,42 @@
   (format t "Looking at ~s~%" x)
   (first x))
 
-(count 'a *v* :key #'verbose-first)
+;;(count 'a *v* :key #'verbose-first)
 ;; Looking at (A 10)
 ;; Looking at (B 20)
 ;; Looking at (A 30)
 ;; Looking at (D 40)
 ;; 2
-(count 'a *v* :key #'verbose-first :from-end t)
+;;(count 'a *v* :key #'verbose-first :from-end t)
 ;; Looking at (D 40)
 ;; Looking at (A 30)
 ;; Looking at (B 20)
 ;; Looking at (A 10)
 ;; 2
+
+(define-test test-Higher-Order-Funcion-Variants
+    (:tag :unittest)
+  (assert-equal 2
+                (count-if #'evenp #(1 2 3 4 5)))
+  (assert-equal 3
+                (count-if-not #'evenp #(1 2 3 4 5)))
+  (assert-equal 4
+                (position-if #'digit-char-p "abcd0001"))
+  (assert-equality #'equalp
+                   #("foo" "foom")
+                   (remove-if-not #'(lambda (x) (char= (elt x 0) #\f))
+                                  #("foo" "bar" "baz" "foom")))
+  (let ((vec #((1 a) (2 b) (3 c) (4 d) (5 e))))
+    (assert-equal 2
+                  (count-if #'evenp
+                            vec
+                            :key #'first))
+    (assert-equal 3
+                  (count-if-not #'evenp
+                                vec
+                                :key #'first)))
+  (assert-equality #'equalp
+                   #("foo" "bar")
+                   (remove-if-not #'alpha-char-p
+                                  #("foo" "bar" "1baz")
+                                  :key #'(lambda (x) (elt x 0)))))
