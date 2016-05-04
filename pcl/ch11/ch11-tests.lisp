@@ -191,3 +191,14 @@
     (assert-equal 3 (search "bar" str)))
   (assert-equal 3 (mismatch "foobarbaz" "foom"))
   (assert-equal 3 (mismatch "foobar" "bar" :from-end t)))
+
+(define-test test-sequence-predicates
+    (:tag :unittest)
+  (assert-false (every #'evenp #(1 2 3 4 5)))
+  (assert-true (some #'evenp #(1 2 3 4 5)))
+  (assert-false (notany #'evenp #(1 2 3 4 5)))
+  (assert-true (notevery #'evenp #(1 2 3 4 5)))
+  (assert-false (every #'> #(1 2 3 4) #(5 4 3 2)))
+  (assert-true (some #'> #(1 2 3 4) #(5 4 3 2)))
+  (assert-false (notany #'> #(1 2 3 4) #(5 4 3 2)))
+  (assert-true (notevery #'> #(1 2 3 4) #(5 4 3 2))))
