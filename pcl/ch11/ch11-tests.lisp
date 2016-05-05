@@ -213,3 +213,26 @@
                    (map-into #(1 2 3 5 6) #'+ #(1 2 3) #(4 5 6) #(7 8 9)))
   (assert-equal 55
                 (reduce #'+ #(1 2 3 4 5 6 7 8 9 10))))
+
+(defparameter *h* (make-hash-table))
+
+(defun show-value (key hash-table)
+  (multiple-value-bind (value present) (gethash key hash-table)
+    (if present
+        (format nil "Value ~a actually present." value)
+        (format nil "Value ~a because key not found." value))))
+
+(define-test test-Hash-Tables
+    (:tag :unittest)
+  (assert-equal nil
+                (gethash 'foo *h*))
+  (setf (gethash 'foo *h*) 'quux)
+  (assert-equal 'quux
+                (gethash 'foo *h*))
+  (setf (gethash 'bar *h*) nil)
+  (assert-equal "Value QUUX actually present."
+                (show-value 'foo *h*))
+  (assert-equal "Value NIL actually present."
+                (show-value 'bar *h*))
+  (assert-equal "Value NIL because key not found."
+                (show-value 'baz *h*)))
