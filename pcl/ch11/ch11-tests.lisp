@@ -202,3 +202,14 @@
   (assert-true (some #'> #(1 2 3 4) #(5 4 3 2)))
   (assert-false (notany #'> #(1 2 3 4) #(5 4 3 2)))
   (assert-true (notevery #'> #(1 2 3 4) #(5 4 3 2))))
+
+(define-test test-Sequence-Mapping-Functions
+    (:tag :unittest)
+  (assert-equality #'equalp
+                   #(10 18 24 28 30)
+                   (map 'vector #'* #(1 2 3 4 5) #(10 9 8 7 6)))
+  (assert-equality #'equalp
+                   #(12 15 18 5 6)
+                   (map-into #(1 2 3 5 6) #'+ #(1 2 3) #(4 5 6) #(7 8 9)))
+  (assert-equal 55
+                (reduce #'+ #(1 2 3 4 5 6 7 8 9 10))))
