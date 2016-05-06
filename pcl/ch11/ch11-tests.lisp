@@ -236,3 +236,10 @@
                 (show-value 'bar *h*))
   (assert-equal "Value NIL because key not found."
                 (show-value 'baz *h*)))
+
+(define-test test-Hash-Table-Iteration
+    (:tag :unittest)
+  (maphash #'(lambda (k v) (format t "~a => ~a~%" k v)) *h*)
+  ;; (loop for k being the hash-keys in *h* using (hash-table v)
+  ;;       do (format t "~a => ~a~%" k v))
+  )
