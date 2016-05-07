@@ -79,3 +79,55 @@
   (assert-equality 'equalp
                    '(11 2 3 44 5 6)
                    *x3*))
+
+(defun upto (max)
+  (let ((result nil))
+    (dotimes (i max)
+      (push i result))
+    (nreverse result)))
+
+(defparameter *list-11* (list 1 2))
+(defparameter *list-21* (list 0 4))
+(defparameter *list-31* (append *list-11* *list-21*))
+(defparameter *list* (list 4 3 2 1))
+
+(define-test test-Combining-Recycling-with-Shared-Structure
+    (:tag :unittest)
+  (assert-equality #'equalp
+                   '(0 1 2 3 4 5 6 7 8 9)
+                   (upto 10))
+
+  (assert-equality #'equalp
+                   '(1 2 0 4)
+                   *list-3*)
+  (assert-equality #'equalp
+                   '(0 4)
+                   *list-2*)
+  (setf *list-3* (delete 4 *list-3*))
+  (assert-equality #'equalp
+                   '(1 2 0)
+                   *list-3*)
+  (assert-equality #'equalp
+                   '(0)
+                   *list-2*)
+
+  (assert-equality #'equalp
+                   '(1 2 0 4)
+                   *list-31*)
+  (assert-equality #'equalp
+                   '(0 4)
+                   *list-21*)
+  (setf *list-31* (remove 4 *list-31*))
+  (assert-equality #'equalp
+                   '(1 2 0)
+                   *list-31*)
+  (assert-equality #'equalp
+                   '(0 4)
+                   *list-21*)
+  (assert-equality #'equalp
+                   '(1 2 3 4)
+                   (sort *list* #'<))
+  ;;*list* is not '(1 2 3 4)
+  (assert-equality #'equalp
+                   '(3 4)
+                   *list*))
