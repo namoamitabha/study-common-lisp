@@ -36,3 +36,9 @@
                   (first (rest list))))
   (assert-equal '("foo" (1 2) 10)
                 (list "foo" (list 1 2) 10)))
+
+(define-test test-Functional-Programming-and-Lists
+    (:tag :unittest)
+  (assert-equality #'equalp
+                   '(1 2 3 4)
+                   (append (list 1 2) (list 3 4))))
