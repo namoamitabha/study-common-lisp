@@ -42,3 +42,40 @@
   (assert-equality #'equalp
                    '(1 2 3 4)
                    (append (list 1 2) (list 3 4))))
+
+(defparameter *list-1* (list 1 2))
+(defparameter *list-2* (list 3 4))
+(defparameter *list-3* (append *list-1* *list-2*))
+(defparameter *x1* (list 1 2 3))
+(defparameter *x2* (list 4 5 6))
+(defparameter *x3* ())
+(define-test test-Destructive-Operations
+    (:tag :unittest)
+  (assert-equality #'equalp
+                   '(1 2)
+                   *list-1*)
+  (assert-equality #'equalp
+                   '(3 4)
+                   *list-2*)
+  (assert-equality #'equalp
+                   '(1 2 3 4)
+                   *list-3*)
+  (setf (first *list-2*) 0)
+  (assert-equality #'equalp
+                   '(0 4)
+                   *list-2*)
+  (assert-equality #'equalp
+                   '(1 2 0 4)
+                   *list-3*)
+  (setf *x3* (nconc *x1* *x2*))
+  (assert-equality #'equalp
+                   '(1 2 3 4 5 6)
+                   *x3*)
+  (setf (first *x1*) 11)
+  (assert-equality 'equalp
+                   '(11 2 3 4 5 6)
+                   *x3*)
+  (setf (first *x2*) 44)
+  (assert-equality 'equalp
+                   '(11 2 3 44 5 6)
+                   *x3*))
