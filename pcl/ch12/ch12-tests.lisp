@@ -131,3 +131,99 @@
   (assert-equality #'equalp
                    '(3 4)
                    *list*))
+
+(define-test test-List-Manipulation-Functions
+    (:tag :unittest)
+  ;;(assert-error (caar (list 1 2 3)))
+  (assert-equal 1
+                (caar (list (list 1 2) 3)))
+  (assert-equal '(3 4)
+                (cadr (list (list 1 2) (list 3 4))))
+  (assert-equal 3
+                (caadr (list (list 1 2) (list 3 4))))
+  ;;last
+  (assert-equal '(3)
+                (last '(1 2 3)))
+  (assert-equal '(2 . 3)
+                (last '(1 2 . 3)))
+  ;;butlast nbutlast
+  (let ((lst '(1 2 3 4 5 6 7 8 9)))
+    (assert-equality #'equalp
+                     '(1 2 3 4 5 6 7 8)
+                     (butlast lst))
+    (assert-equality #'equalp
+                     '(1 2 3 4)
+                     (butlast lst 5))
+    (assert-equality #'equalp
+                     '(1 2 3 4 5 6 7 8 9)
+                     lst)
+    (assert-equality #'equalp
+                     '(1 2 3 4 5 6)
+                     (nbutlast lst 3))
+    (assert-equality #'equalp
+                     '(1 2 3 4 5 6)
+                     lst))
+  ;; tailp ldiff
+  (let ((lst '(a b c d . e)))
+    (assert-true (tailp (cdddr lst) lst))
+    (assert-equality #'equalp
+                     lst
+                     (ldiff lst nil))
+    (assert-equality #'equalp
+                     nil
+                     (ldiff lst lst))
+    (assert-equality #'equalp
+                     (list (car lst))
+                     (ldiff lst (cdr lst))))
+  ;; list*
+  (assert-equality #'equalp
+                   '(1 2 . 3)
+                   (list* 1 2 3))
+  (assert-equality #'equalp
+                   '(a b c d e)
+                   (list* 'a 'b 'c '(d e)))
+  ;; make-list
+  (assert-equality #'equalp
+                   '(nil nil nil nil nil)
+                   (make-list 5 :initial-element nil))
+  (assert-equality #'equalp
+                   '(hah hah hah)
+                   (make-list 3 :initial-element 'hah))
+  ;;revappend nreconc
+  (assert-equality #'equalp
+                   '(3 2 1 a . b)
+                   (revappend '(1 2 3) '(a . b)))
+  (assert-equality #'equalp
+                   '(3 2 1 a . b)
+                   (nreconc '(1 2 3) '(a . b)))
+  (let ((list1 '(1 2 3))
+        (list2 '(4 5 6)))
+    (assert-equality #'equalp
+                     '(3 2 1 4 5 6)
+                     (nreconc list1 list2))
+    (assert-false (equal list1 '(1 2 3)))
+    (assert-equality #'equalp
+                     '(4 5 6)
+                     list2))
+  ;;consp
+  (assert-true (consp (cons 1 2)))
+  (assert-false (consp nil))
+  (assert-false (consp #(1 2 3)))
+  (assert-true (consp (list 1 2 (list 2 3))))
+  (assert-false (consp 'a))
+  ;;atom
+  (assert-true (atom 'atom))
+  (assert-true (atom #(1 2 3)))
+  (assert-false (atom '(1 2)))
+  (assert-false (atom (cons 1 2)))
+  ;;listp
+  (assert-true (listp '()))
+  (assert-true (listp nil))
+  (assert-true (listp (cons 1 2)))
+  (assert-false (listp 1))
+  (assert-false (listp (make-array 6)))
+  ;;null
+  (assert-true (null nil))
+  (assert-true (null '()))
+  (assert-false (null '(1)))
+  (assert-false (null t)))
