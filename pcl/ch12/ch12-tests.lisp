@@ -227,3 +227,20 @@
   (assert-true (null '()))
   (assert-false (null '(1)))
   (assert-false (null t)))
+
+(define-test test-Mapping
+    (:tag :unittest)
+  ;;map
+  ;;mapcar
+  (assert-equality #'equalp
+                   '(2 4 6)
+                   (mapcar #'(lambda (x) (* 2 x)) (list 1 2 3)))
+  (assert-equality #'equalp
+                   '(11 22 33)
+                   (mapcar #'+ (list 1 2 3) (list 10 20 30)))
+  ;;maplist
+  ;;mapcan
+  ;;mapcon
+  ;;mapc
+  ;;mapl
+  )
