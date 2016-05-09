@@ -91,3 +91,38 @@
   (assert-equality #'equalp
                    '("a-key" "a-value")
                    (symbol-plist :a)))
+
+(define-test test-Destructuring-Bind
+    (:tag :unittest)
+  (assert-equality #'equalp
+                   '(:x 1 :y 2 :z 3)
+                   (destructuring-bind (x y z) (list 1 2 3)
+                     (list :x x :y y :z z)))
+  (assert-equality #'equalp
+                   '(:x 1 :y (2 20) :z 3)
+                   (destructuring-bind (x y z) (list 1 (list 2 20) 3)
+                     (list :x x :y y :z z)))
+  (assert-equality #'equalp
+                   '(:x 1 :y1 2 :y2 20 :z 3)
+                   (destructuring-bind (x (y1 y2) z) (list 1 (list 2 20) 3)
+                     (list :x x :y1 y1 :y2 y2 :z z)))
+  (assert-equality #'equalp
+                   '(:x 1 :y1 2 :y2 20 :z 3)
+                   (destructuring-bind (x (y1 &optional y2) z) (list 1 (list 2 20) 3)
+                     (list :x x :y1 y1 :y2 y2 :z z)))
+  (assert-equality #'equalp
+                   '(:x 1 :y1 2 :y2 nil :z 3)
+                   (destructuring-bind (x (y1 &optional y2) z) (list 1 (list 2) 3)
+                     (list :x x :y1 y1 :y2 y2 :z z)))
+  (assert-equality #'equalp
+                   '(:x 1 :y 2 :z 3)
+                   (destructuring-bind (&key x y z) (list :x 1 :y 2 :z 3)
+                     (list :x x :y y :z z)))
+  (assert-equality #'equalp
+                   '(:x 3 :y 2 :z 1)
+                   (destructuring-bind (&key x y z) (list :z 1 :y 2 :x 3)
+                     (list :x x :y y :z z)))
+  (assert-equality #'equalp
+                   '(:x 3 :y 2 :z 1 :whole (:z 1 :y 2 :x 3))
+                   (destructuring-bind (&whole whole &key x y z) (list :z 1 :y 2 :x 3)
+                     (list :x x :y y :z z :whole whole))))
