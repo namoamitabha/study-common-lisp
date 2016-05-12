@@ -32,7 +32,7 @@
                               :name "baz"
                               :type ".txt"))
   (assert-equal #P"/foo/bar/baz.txt"
-                (make-pathname :device "c"
+                (make-pathname ;;:device "c"
                                :directory '(:absolute "foo" "bar")
                                :name "baz"
                                :type "txt"))
