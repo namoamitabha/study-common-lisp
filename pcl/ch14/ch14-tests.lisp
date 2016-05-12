@@ -51,3 +51,10 @@
                  #p"www-backups/"))
   (assert-equal #P"foo.txt"
                 (make-pathname :name "foo" :type "txt")))
+
+(define-test test-Two-Representations-of-Directory-Names
+    (:tag :unittest)
+  (assert-equal #P"/foo/bar"
+                (make-pathname :directory '(:absolute "foo") :name "bar"))
+  (assert-equal #P"/foo/bar/"
+                (make-pathname :directory '(:absolute "foo" "bar"))))
